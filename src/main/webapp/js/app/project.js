@@ -26,6 +26,9 @@ $(function() {
               {field : 'server',title : '服务器',width : fixWidth(0.1),align : 'left',editor : {type:'validatebox',options:{required:true}}},
               {field : 'os',title : '操作系统',width : fixWidth(0.08),align : 'left',editor : {type:'validatebox',options:{required:true}}},
               {field : 'db',title : '数据库',width : fixWidth(0.1),align : 'left',editor : {type:'validatebox',options:{required:true}}},
+              {field : 'versionPrefix',title : '项目版本号',width : fixWidth(0.08),align : 'left',editor : {type:'validatebox',options:{required:true}}},
+              {field : 'versionCode',title : '程序起始版本',width : fixWidth(0.08),align : 'left',editor : {type:'validatebox',options:{required:true}}},
+              {field : 'versionNoCode',title : '非程序起始版本',width : fixWidth(0.08),align : 'left',editor : {type:'validatebox',options:{required:true}}},
               {field : 'releaseTime',title : '发布时间',width : fixWidth(0.1),editor : "datebox",sortable: true,
             	  formatter : function(value){
                       var date = new Date(value);

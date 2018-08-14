@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.zml.oa.entity.Vacation;
+import com.zml.oa.entity.Project;
 import com.zml.oa.entity.WorkOrder;
 import com.zml.oa.pagination.Page;
 import com.zml.oa.service.IBaseService;
@@ -17,14 +17,20 @@ public class WorkOrderServiceImpl implements IWorkOrderService {
 	@Autowired 
 	private IBaseService<WorkOrder> baseService;
 	
+	@Autowired 
+	private IBaseService<Project> projectService;
+	
 	@Override
 	public Serializable doAdd(WorkOrder workOrder) throws Exception {
 		return this.baseService.add(workOrder);
 	}
 
 	@Override
-	public void doUpdate(WorkOrder workOrder) throws Exception {
+	public void doUpdate(WorkOrder workOrder,boolean flag) throws Exception {
 		this.baseService.update(workOrder);
+		if(flag) {
+			projectService.update(workOrder.getProject());
+		}
 	}
 
 	@Override

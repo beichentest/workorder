@@ -117,8 +117,8 @@
             </c:choose>
         </div>
         <div class="fitem">
-            <label>我的意见:</label>
-            <textarea cols="33" rows="5" name="content"></textarea>
+            <label>回滚原因:</label>
+            <input id="rollbackReason" name="rollbackReason" value="${workOrder.rollbackReason}" class="easyui-textbox"  data-options="multiline:true" style="height:70px; width: 300px">            
         </div>        
     </form>
 </div>

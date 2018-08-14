@@ -469,9 +469,17 @@ function handleTask(){
   			        	  iconCls: 'icon-ok',
   			        	  handler: function () {
   			        		  $("#reApply").val("true");
+  			        		$("#completeFlag").val("true");
   			        		  audit_form.submit();
   			        	  }
-  			          },        			         
+  			          },{
+			        	  text: '回滚',
+			        	  iconCls: 'icon-remove',
+			        	  handler: function () {
+			        		  $("#completeFlag").val("false");
+			        		  audit_form.submit();
+			        	  }
+			          },        			         
   			          {
   			        	  text: '关闭',
   			        	  iconCls: 'icon-cancel',
@@ -480,7 +488,26 @@ function handleTask(){
   			        	  }
   			          }
 		  			]
-				}
+				}else if(row.taskDefinitionKey=="versionRollback"){
+    				button = [
+    			          {
+    			        	  text: '确认',
+    			        	  iconCls: 'icon-ok',
+    			        	  handler: function () {
+    			        		  $("#reApply").val("true");
+    			        		$("#completeFlag").val("true");
+    			        		  audit_form.submit();
+    			        	  }
+    			          },        			         
+    			          {
+    			        	  text: '关闭',
+    			        	  iconCls: 'icon-cancel',
+    			        	  handler: function () {
+    			        		  audit_dialog.dialog('destroy');
+    			        	  }
+    			          }
+  		  			]
+  				}
     		}
     		
     		//弹出对话窗口

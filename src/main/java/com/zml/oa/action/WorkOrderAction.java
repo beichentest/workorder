@@ -295,6 +295,7 @@ public class WorkOrderAction implements Serializable{
     		@ModelAttribute("workOrder") WorkOrder workOrder) throws Exception{
     	User user = UserUtil.getUserFromSession();
     	Message message = new Message();
+    	boolean isUpdateProject = false;
     	try {
     		Task task = this.taskService.createTaskQuery().taskId(taskId).singleResult();
     		String processInstanceId = task.getProcessInstanceId();
@@ -363,11 +364,6 @@ public class WorkOrderAction implements Serializable{
     			baseWorkOrder.setTesterId(user.getId());
     			baseWorkOrder.setTesterDate(new Date());    			
     			baseWorkOrder.setTestDesc(workOrder.getTestDesc());
-//    			if(!completeFlag){
-//	    			baseWorkOrder.setTitle(baseWorkOrder.getUser_name()+" 的工单申请,测试未通过！");
-//	    		}else {
-//	    			baseWorkOrder.setTitle(baseWorkOrder.getUser_name()+" 的工单申请！");
-//	    		}
     		}else if("commiter".equals(taskDefKey)) { //入库
     			variables.put("commiterId", user.getId().toString());
     			variables.put("isPass", completeFlag);
@@ -376,12 +372,9 @@ public class WorkOrderAction implements Serializable{
     			baseWorkOrder.setCommiterDate(new Date());
     			baseWorkOrder.setTestSvn(baseWorkOrder.getProject().getTesterSvn());
     			baseWorkOrder.setTestVersion(workOrder.getTestVersion());
-    			baseWorkOrder.setTestDesc(workOrder.getTestDesc());
-//    			if(!completeFlag){
-//	    			baseWorkOrder.setTitle(baseWorkOrder.getUser_name()+" 的工单申请,入库失败！");
-//	    		}else {
-//	    			baseWorkOrder.setTitle(baseWorkOrder.getUser_name()+" 的工单申请！");
-//	    		}
+    			baseWorkOrder.setTestDesc(workOrder.getTestDesc());    			
+    			baseWorkOrder.setProjectVersion(generateVersion(baseWorkOrder.getProject(),baseWorkOrder.getType()));
+    			isUpdateProject = true;
     		}else if("testerAudit".equals(taskDefKey)) { //测试部门审核
     			variables.put("isPass", completeFlag);
     			baseWorkOrder.setTesterAudit(user.getRealName());
@@ -405,19 +398,31 @@ public class WorkOrderAction implements Serializable{
 //    			}else {
 //    				baseWorkOrder.setTitle(baseWorkOrder.getUser_name()+" 的工单申请！");
 //    			}
-    		}else if("webmasterAudit".equals(taskDefKey)) {
+    		}else if("webmasterAudit".equals(taskDefKey)) { //运维部门审核
     			baseWorkOrder.setWebMasterAudit(user.getRealName());
     			baseWorkOrder.setWebMasterAuditId(user.getId());
     			baseWorkOrder.setWebMasterAuditDate(new Date());
-    		}else if("applyConfirm".equals(taskDefKey)) {
+    			content = "同意";
+    		}else if("applyConfirm".equals(taskDefKey)) {   //申请人确认
+    			variables.put("isPass", completeFlag);
     			baseWorkOrder.setVerifyDate(new Date());
+    			if(completeFlag) {
+    				baseWorkOrder.setRollbackFlag(BaseVO.WORKORDER_NORMAL);
+    				baseWorkOrder.setStatus(BaseVO.APPROVAL_SUCCESS);
+    			}else {
+    				baseWorkOrder.setRollbackFlag(BaseVO.WORKORDER_ROLLBACK);
+    				baseWorkOrder.setRollbackReason(workOrder.getRollbackReason());
+    			}
+    		}else if("versionRollback".equals(taskDefKey)) { //版本回滚
+    			baseWorkOrder.setRollbackReason(workOrder.getRollbackReason());
+    			baseWorkOrder.setRollbackVersion(workOrder.getRollbackVersion());
     			baseWorkOrder.setStatus(BaseVO.APPROVAL_SUCCESS);
     		}
     		variables.put("entity", baseWorkOrder);
     		variables.put("lastId", user.getId());
     		// 完成任务
     		this.processService.complete(taskId, content, user.getId().toString(), variables);
-    		this.workOrderService.doUpdate(baseWorkOrder);
+    		this.workOrderService.doUpdate(baseWorkOrder,isUpdateProject);
 			message.setStatus(Boolean.TRUE);
 			message.setMessage("任务办理完成！");
 		} catch (ActivitiObjectNotFoundException e) {
@@ -548,10 +553,31 @@ public class WorkOrderAction implements Serializable{
 		searchTask(taskId, model);
     	return result;
 	}
-	
+	/**
+	 * 发起人确认
+	 * @param taskId
+	 * @param model
+	 * @return
+	 * @throws NumberFormatException
+	 * @throws Exception
+	 */
 	@RequestMapping(value= {"/workOrderVerify"})
 	public String workOrderVerify(@ModelAttribute("taskId") String taskId,Model model) throws NumberFormatException, Exception{
 		String result = "workOrder/form_verify";
+		searchTask(taskId, model);
+    	return result;
+	}
+	/**
+	 * 回滚
+	 * @param taskId
+	 * @param model
+	 * @return
+	 * @throws NumberFormatException
+	 * @throws Exception
+	 */
+	@RequestMapping(value= {"/rollback"})
+	public String rollback(@ModelAttribute("taskId") String taskId,Model model) throws NumberFormatException, Exception{
+		String result = "workOrder/form_rollback";
 		searchTask(taskId, model);
     	return result;
 	}
@@ -707,6 +733,9 @@ public class WorkOrderAction implements Serializable{
         params.put("COMMITER", workOrder.getCommiter());
         params.put("COMMITER_DATE", DateUtil.DateToString(workOrder.getCommiterDate(),"yyyy-MM-dd"));
         params.put("TEST_DESC", workOrder.getTestDesc());
+        if("1".equals(workOrder.getRollbackFlag())) {
+        	params.put("ROLLBACK", "回滚");
+        }
         XWPFTemplate template = XWPFTemplate.compile(templateFile)
 				.render(params);
         // 输出 word 内容文件流，提供下载
@@ -752,9 +781,24 @@ public class WorkOrderAction implements Serializable{
 		List<WorkOrder> workOrders =  workOrderService.getWorkOrderList(hql, sort, order, values.toArray());
 		PoiExcelExport pee = new PoiExcelExport(response,"软件版本发布工单","sheet1");
 		
-		String titleColumn[] = {"id","domainName","projectName","commiterDate","coder","applyUser","tester","commiter","type","home","area","priorityStr","coderSvn","coderVersion","developExplain"};
-        String titleName[] = {"工单编号","域名","项目名称","入库时间","开发人员","申请人","测试人员","入库人员","类别","项目归属","应用地区","优先级","SVN地址","更新版本","修改内容"};
-        int titleSize[] = {13,13,13,13,13,13,13,13,13,13,13,13,13,13,13};        
+		String titleColumn[] = {"id","domainName","projectName","commiterDate","coder","applyUser","tester","commiter","type","home","area","priorityStr","coderSvn","coderVersion","describe","rollbackDesc","rollbackVersion","rollbackReason"};
+        String titleName[] = {"工单编号","域名","项目名称","入库时间","开发人员","申请人","测试人员","入库人员","类别","项目归属","应用地区","优先级","SVN地址","更新版本","修改内容","是否回滚","回滚版本","回滚原因"};
+        int titleSize[] = {13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13};        
 		pee.wirteExcel(titleColumn, titleName, titleSize, workOrders);
+	}
+	
+	private String generateVersion(Project project,String type) {
+		if(project==null)
+			return "";
+		StringBuilder sb = new StringBuilder();
+		sb.append(project.getVersionPrefix()).append(".");
+		if("非程序类修改".equals(type)) {
+			project.setVersionNoCode(project.getVersionNoCode()+1);			
+		}else {
+			project.setVersionCode(project.getVersionCode()+1);			
+		}
+		sb.append(project.getVersionCode()).append(".")
+		  .append(project.getVersionNoCode());
+		return sb.toString();
 	}
 }

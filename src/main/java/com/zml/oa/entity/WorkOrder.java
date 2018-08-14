@@ -284,6 +284,11 @@ public class WorkOrder extends BaseVO implements Serializable{
 	 */
 	@Column(name = "ROLLBACK_REASON")
 	private String rollbackReason;
+	/**
+	 * 项目版本号
+	 */
+	@Column(name = "PROJECT_VERSION")
+	private String projectVersion;
 	
 	public WorkOrder(){
 		
@@ -684,5 +689,31 @@ public class WorkOrder extends BaseVO implements Serializable{
 
 	public void setRollbackReason(String rollbackReason) {
 		this.rollbackReason = rollbackReason;
+	}
+
+	public String getProjectVersion() {
+		return projectVersion;
+	}
+
+	public void setProjectVersion(String projectVersion) {
+		this.projectVersion = projectVersion;
+	}
+	
+	public String getDescribe() {
+		if(StringUtils.isBlank(this.developExplain)) {
+			return "";
+		}
+		if(StringUtils.isNotBlank(this.projectVersion)) {
+			return this.projectVersion + " " +this.developExplain;
+		}
+		return this.developExplain;
+	}
+	
+	public String getRollbackDesc() {
+		if("1".equals(this.rollbackFlag)) {
+			return "是";
+		}else {
+			return "否";
+		}
 	}
 }

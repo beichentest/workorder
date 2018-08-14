@@ -9,7 +9,7 @@ import com.zml.oa.pagination.Page;
 public interface IWorkOrderService {
 	public Serializable doAdd(WorkOrder workOrder) throws Exception;
 	
-	public void doUpdate(WorkOrder workOrder) throws Exception;
+	public void doUpdate(WorkOrder workOrder,boolean flag) throws Exception;
 	
 	public void doDelete(WorkOrder workOrder) throws Exception;
 	

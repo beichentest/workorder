@@ -814,7 +814,7 @@ public class ProcessServiceImp implements IProcessService{
         ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("WorkOrder", businessKey, variables);
         String processInstanceId = processInstance.getId();
         workOrder.setProcInstId(processInstanceId);
-        this.workOrderService.doUpdate(workOrder);
+        this.workOrderService.doUpdate(workOrder,false);
         logger.info("processInstanceId: "+processInstanceId);
         //最后要设置null，就是这么做，还没研究为什么
         this.identityService.setAuthenticatedUserId(null);

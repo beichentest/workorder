@@ -106,7 +106,22 @@
 	              },
 	              {field : 'coderSvn',title : '开发SVN',width : fixWidth(0.2),align : 'left',sortable: true, editor : {type:'validatebox',options:{required:true}}},
 	              {field : 'coderVersion',title : '更新版本',width : fixWidth(0.05),align : 'left',sortable: true, editor : {type:'validatebox',options:{required:true}}},
-	              {field : 'developExplain',title : '修改内容',width : fixWidth(0.2),align : 'left',sortable: true, editor : {type:'validatebox',options:{required:true}}},
+	              {field : 'developExplain',title : '修改内容',width : fixWidth(0.2),align : 'left',
+	            	  formatter:function(value,row){
+	            		  return row.projectVersion+" "+value;
+ 					  }
+	              },
+	              {field : 'rollbackFlag',title : '回滚',width : fixWidth(0.03),align : 'left',
+	            	  formatter:function(value,row){
+	            		  if(value=="1"){
+	            			  return "<font color='red'>是</font>";
+	            		  }else{
+	            			  return "<font color='green'>否</font>";
+	            		  }
+ 					  }
+	              },
+	              {field : 'rollbackVersion',title : '回滚版本',width : fixWidth(0.05),align : 'left',editor : {type:'validatebox',options:{required:true}}},
+	              {field : 'rollbackReason',title : '回滚原因',width : fixWidth(0.2),align : 'left',editor : {type:'validatebox',options:{required:true}}},
 	              {field : 'down',title : '下载',width : fixWidth(0.05),align : 'left', 
 	            	  formatter:function(value,row){
 	            		  return "<a class='trace' onclick=\"downloadWord('"+row.id+"')\" id='download' href='#'  title='下载'>下载</a>";

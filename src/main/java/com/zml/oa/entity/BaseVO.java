@@ -54,6 +54,11 @@ public class BaseVO implements Serializable{
 	//审批失败
 	public static final String APPROVAL_FAILED = "APPROVAL_FAILED";
 	
+	//工单回滚
+	public static final String WORKORDER_ROLLBACK = "1";
+	//工单正常
+	public static final String WORKORDER_NORMAL = "0";
+	
 	/**
 	 * 项目状态 正常线上
 	 */
