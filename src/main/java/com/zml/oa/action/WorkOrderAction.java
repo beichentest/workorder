@@ -325,7 +325,12 @@ public class WorkOrderAction implements Serializable{
 	    		}
     		}else if("businessUpdate".equals(taskDefKey)) {    //申请人修改
     			//baseWorkOrder.setProject(projectService.getProjectById( workOrder.getProject().getId()));
-    			baseWorkOrder.setDomain(domainService.getDomainById(workOrder.getDomain().getId()));
+    			Domain domain = domainService.getDomainById(workOrder.getDomain().getId());
+    			Set<Project> domainSet = domain.getProjects();
+    	        for (Project project : domainSet) {
+    				logger.info(project.getName());
+    			}
+    			baseWorkOrder.setDomain(domain);
     			//baseWorkOrder.setDomain(workOrder.getDomain());
     			baseWorkOrder.setCoder(workOrder.getCoder());
     			baseWorkOrder.setCoderId(workOrder.getCoderId());
