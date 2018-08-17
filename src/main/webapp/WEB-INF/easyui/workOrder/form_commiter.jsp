@@ -78,7 +78,10 @@
             <label>上线版本:</label>
 	            <input id=testVersion name="testVersion" value="${workOrder.testVersion}"  class="easyui-textbox easyui-validatebox" required="true" >
 	        </div>
-	        
+	        <div class="fitem">
+            <label>入库版本号:</label>
+	            <c:out value="${version}"/>
+	        </div>
         <div class="fitem">
             <label>评论:</label>
 			<c:choose>

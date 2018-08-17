@@ -513,7 +513,12 @@ public class WorkOrderAction implements Serializable{
 	@RequestMapping(value= {"/commiter"})
 	public String commiter(@ModelAttribute("taskId") String taskId,Model model) throws NumberFormatException, Exception{
 		String result = "workOrder/form_commiter";
-		searchTask(taskId, model);
+		WorkOrder workOrder = searchTask(taskId, model);
+		Project project = workOrder.getProject();
+		if(project!=null) {
+			String version = generateVersion(project,workOrder.getType());
+			model.addAttribute("version", version+" "+StringUtils.trimToNull(workOrder.getDevelopExplain()));
+		}
     	return result;
 	}
 	/**
@@ -587,7 +592,7 @@ public class WorkOrderAction implements Serializable{
     	return result;
 	}
 	
-	private void searchTask(String taskId, Model model) throws Exception {
+	private WorkOrder searchTask(String taskId, Model model) throws Exception {
 		Task task = this.taskService.createTaskQuery().taskId(taskId).singleResult();
 		// 根据任务查询流程实例
     	String processInstanceId = task.getProcessInstanceId();
@@ -603,6 +608,7 @@ public class WorkOrderAction implements Serializable{
 		model.addAttribute("workOrder", workOrder);
 		model.addAttribute("commentList", commentList);
 		model.addAttribute("domainList",domainList);
+		return workOrder;
 	}
 	
 	/**
@@ -786,9 +792,9 @@ public class WorkOrderAction implements Serializable{
 		List<WorkOrder> workOrders =  workOrderService.getWorkOrderList(hql, sort, order, values.toArray());
 		PoiExcelExport pee = new PoiExcelExport(response,"软件版本发布工单","sheet1");
 		
-		String titleColumn[] = {"id","domainName","projectName","commiterDate","coder","applyUser","tester","commiter","type","home","area","priorityStr","coderSvn","coderVersion","describe","rollbackDesc","rollbackVersion","rollbackReason"};
-        String titleName[] = {"工单编号","域名","项目名称","入库时间","开发人员","申请人","测试人员","入库人员","类别","项目归属","应用地区","优先级","SVN地址","更新版本","修改内容","是否回滚","回滚版本","回滚原因"};
-        int titleSize[] = {13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13};        
+		String titleColumn[] = {"id","domainDomain","domainName","projectName","commiterDate","coder","applyUser","tester","commiter","type","home","area","priorityStr","coderSvn","coderVersion","describe","rollbackDesc","rollbackVersion","rollbackReason"};
+        String titleName[] = {"工单编号","域名","域名称","项目名称","入库时间","开发人员","申请人","测试人员","入库人员","类别","项目归属","应用地区","优先级","SVN地址","更新版本","修改内容","是否回滚","回滚版本","回滚原因"};
+        int titleSize[] = {13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13};        
 		pee.wirteExcel(titleColumn, titleName, titleSize, workOrders);
 	}
 	

@@ -63,10 +63,15 @@
 			striped:true,
 	        columns : [ 
 	            [ 
-	              {field : 'id',title : '编号',width : fixWidth(0.05),align : 'left',sortable: true, editor : {type:'validatebox',options:{required:true}}},	
-	              {field : 'domain.name',title : '域名',width : fixWidth(0.2),align : 'left',sortable: true, 
+	              {field : 'id',title : '编号',width : fixWidth(0.05),align : 'left',sortable: true, editor : {type:'validatebox',options:{required:true}}},
+	              {field : 'domain.domain',title : '域名',width : fixWidth(0.2),align : 'left',sortable: true, 
 	            	  formatter:function(value, row){
 	                		return row.domain.domain;
+	                	}  
+	              },
+	              {field : 'domain.name',title : '域名称',width : fixWidth(0.2),align : 'left',sortable: true, 
+	            	  formatter:function(value, row){
+	                		return row.domain.name;
 	                	}  
 	              },
 	              {field : 'project.name',title : '项目名称',width : fixWidth(0.2),align : 'left',sortable: true, 

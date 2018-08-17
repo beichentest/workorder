@@ -606,9 +606,16 @@ public class WorkOrder extends BaseVO implements Serializable{
 		return "";
 	}
 	
-	public String getDomainName() {
+	public String getDomainDomain() {
 		if(domain!=null&&StringUtils.isNotBlank(domain.getDomain())) {
 			return domain.getDomain();
+		}
+		return "";
+	}
+	
+	public String getDomainName() {
+		if(domain!=null&&StringUtils.isNotBlank(domain.getName())) {
+			return domain.getName();
 		}
 		return "";
 	}
