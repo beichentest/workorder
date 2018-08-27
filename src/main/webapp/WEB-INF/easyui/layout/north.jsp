@@ -80,7 +80,7 @@
 	}
 </script>
 <div style="position: absolute; right: 0px; bottom: 0px; ">
-	<shiro:principal/>&nbsp;&nbsp;你好，欢迎登录！&nbsp;&nbsp;
+	<shiro:principal property="name"/>&nbsp;&nbsp;你好，欢迎登录！&nbsp;&nbsp;
 	<a href="javascript:void(0);" class="easyui-menubutton" menu="#layout_north_kzmbMenu" iconCls="icon-help">控制面板</a> 
 	<a href="javascript:void(0);" class="easyui-menubutton" menu="#layout_north_zxMenu" iconCls="icon-logout">注销</a>
 </div>

@@ -52,11 +52,12 @@ public class UserRealm extends AuthorizingRealm{
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        String username = (String)principals.getPrimaryPrincipal();
+        //String username = (String)principals.getPrimaryPrincipal();
         //Authorization 授权，即权限验证，验证某个已认证的用户是否拥有某个权限
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
 		try {
-			User user = this.userService.getUserByName(username);
+			//User user = this.userService.getUserByName(username);
+			User user = (User)principals.getPrimaryPrincipal();
 	        Set<String> roles = new HashSet<String>();
 	        //本系统设计为一个用户属于一个用户组，即用户组就是用户的角色（employee、finance、hr、boss..）；每个用户组有不同的权限（资源）
 	        //其他系统中可以设置 一个用户有多个角色，一个角色有多个权限
@@ -115,7 +116,8 @@ public class UserRealm extends AuthorizingRealm{
         //交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配
         //CredentialsMatcher使用盐加密传入的明文密码和此处的密文密码进行匹配。
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-                user.getName(), //用户名
+                //user.getName(), //用户名
+        		user,
                 user.getPasswd(), //密码
                 ByteSource.Util.bytes(user.getCredentialsSalt()),//salt=username+salt
                 getName()  //realm name

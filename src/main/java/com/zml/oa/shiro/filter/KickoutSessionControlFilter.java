@@ -17,6 +17,8 @@ import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.util.WebUtils;
 
+import com.zml.oa.entity.User;
+
 /**
  * 用户踢出
  * @author zml
@@ -67,14 +69,15 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
         }
 
         Session session = subject.getSession();
-        String username = (String) subject.getPrincipal();
+        //String username = (String) subject.getPrincipal();
+        User user = (User)subject.getPrincipal();
         Serializable sessionId = session.getId();
 
         //TODO 同步控制
-        Deque<Serializable> deque = cache.get(username);
+        Deque<Serializable> deque = cache.get(user.getName());
         if(deque == null) {
             deque = new LinkedList<Serializable>();
-            cache.put(username, deque);
+            cache.put(user.getName(), deque);
         }
 
         //如果队列里没有此sessionId，且用户没有被踢出；放入队列

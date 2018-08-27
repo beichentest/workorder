@@ -21,7 +21,7 @@
         	<ul>
             </ul>
         </div>
-        <div class="welcome"><shiro:principal/>&nbsp;&nbsp;你好，欢迎登录！&nbsp;&nbsp;[&nbsp;<a href="${ctx}/logout" target="_parent" class="white underline">退出</a>&nbsp;]</div>
+        <div class="welcome"><shiro:principal property="name"/>&nbsp;&nbsp;你好，欢迎登录！&nbsp;&nbsp;[&nbsp;<a href="${ctx}/logout" target="_parent" class="white underline">退出</a>&nbsp;]</div>
 
 	</div>
     

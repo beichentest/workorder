@@ -86,7 +86,9 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements IUserServi
 		//pwd 为修改后的
 		passwordHelper.encryptPassword(user);
 		update(user);
-		updateMembership(user);
+		if(user.getGroup()!=null) {
+			updateMembership(user);
+		}
 	}
 
 	/**
@@ -299,4 +301,35 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements IUserServi
 		return list;
 	}
 
+	
+	////////////////////////////////test//////////////////////////////////////////////////////////////////////
+	@Override
+	public void testSaveOrUpdate(User user) throws Exception {
+		this.saveOrUpdate(user);
+	}
+
+	@Override
+	public List<User> testHqlQuery(String tableSimpleName, String[] columns, String[] values) throws Exception {
+		return this.findByWhere(tableSimpleName, columns, values);
+	}
+
+	@Override
+	public User testGetBean(Class<User> obj, Serializable id) throws Exception {
+		return this.getBean(obj, id);
+	}
+
+	@Override
+	public User testLoadBean(Class<User> obj, Serializable id) throws Exception {
+		return this.loadBean(obj, id);
+	}
+	@Override
+	public List<User> testGetListPage(String hql,  Page<User> page, String sort,
+			String order , Object ... params)throws Exception {
+		return this.getListPage(hql, page, sort, order, params);
+	}
+
+	@Override
+	public List<User> testGet(String hql,String[] columns,String[] values) throws Exception {
+		return this.findByWhere(hql, columns, values);
+	}
 }

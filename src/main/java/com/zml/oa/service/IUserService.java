@@ -71,6 +71,20 @@ public interface IUserService {
     public void deleteAllActivitiIdentifyData() throws Exception;
     
     public User loadUserById(Integer id) throws Exception;
+    
+    /////////////////////////////////////////////test///////////////////////////////////////////////////////////////////////////////
+    
+    public void testSaveOrUpdate(User user)throws Exception;
+    
+    public List<User> testHqlQuery(String tableSimpleName, String[] columns,String[] values)throws Exception;
+    
+    public User testGetBean(Class<User> obj, Serializable id)throws Exception;
+    
+    public User testLoadBean(Class<User> obj, Serializable id)throws Exception;
+
+	public List<User> testGetListPage(String hql, Page<User> page, String sort, String order, Object[] params)
+			throws Exception;
+	public List<User> testGet(String hql,String[] columns,String[] values)throws Exception;
 }
 
 

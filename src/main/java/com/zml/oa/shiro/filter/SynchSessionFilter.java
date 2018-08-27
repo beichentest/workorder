@@ -35,8 +35,9 @@ public class SynchSessionFilter extends PathMatchingFilter {
     	Subject currentUser = SecurityUtils.getSubject();
     	User user = (User) currentUser.getSession().getAttribute(Constants.CURRENT_USER);
     	if(user==null&&SecurityUtils.getSubject().getPrincipal()!=null) {
-    		String username = (String) SecurityUtils.getSubject().getPrincipal();
-    		user = this.userService.getUserByName(username);
+//    		String username = (String) SecurityUtils.getSubject().getPrincipal();
+//    		user = this.userService.getUserByName(username);
+    		user = (User)SecurityUtils.getSubject().getPrincipal();
     		currentUser.getSession().setAttribute(Constants.CURRENT_USER, user);
         }
         return true;

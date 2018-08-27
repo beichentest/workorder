@@ -54,7 +54,8 @@ public class CustomFormAuthenticationFilter extends FormAuthenticationFilter {
     		//会话过期 attribute 为空，重新设置。
     		User user = (User) session.getAttribute(Constants.CURRENT_USER);
     		if(BeanUtils.isBlank(user)){
-    			user = this.userService.getUserByName(subject.getPrincipal().toString());
+    			//user = this.userService.getUserByName(subject.getPrincipal().toString());
+    			user = (User)subject.getPrincipal();
     			UserUtil.saveUserToSession(session, user);
     		}
     	}

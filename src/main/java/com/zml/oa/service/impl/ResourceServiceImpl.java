@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.zml.oa.dao.IJdbcDao;
@@ -14,7 +15,7 @@ import com.zml.oa.entity.Resource;
 import com.zml.oa.pagination.Page;
 import com.zml.oa.service.IBaseService;
 import com.zml.oa.service.IResourceService;
-import com.zml.oa.util.BeanUtils;
+import com.zml.oa.util.StringUtils;
 
 @Service
 public class ResourceServiceImpl implements IResourceService {
@@ -33,19 +34,27 @@ public class ResourceServiceImpl implements IResourceService {
 
 	@Override
 	public List<Resource> getMenus(List<GroupAndResource> gr) throws Exception {
-		List<Resource> menus = new ArrayList<Resource>();
+		List<Integer> resourceIdList = new ArrayList<Integer>();
 		for(GroupAndResource gar : gr){
-			Resource resource= getPermissions(gar.getResourceId());
-			if(!BeanUtils.isBlank(resource)){
-				if(resource.isRootNode()) {
-	                continue;
-	            }
-	            if(!"menu".equals(resource.getType())) {
-	                continue;
-	            }
-	            menus.add(resource);
-			}
+			resourceIdList.add(gar.getResourceId());
 		}
+		String sql = "select * from t_resource where type=? and parent_id>0 and id in ("+StringUtils.convertListToString(resourceIdList)+")";
+		List params = new ArrayList();
+		params.add("menu");		
+		List<Resource> menus =  baseService.findBySQL(Resource.class, sql, params);
+//		List<Resource> menus = new ArrayList<Resource>();
+//		for(GroupAndResource gar : gr){
+//			Resource resource= getPermissions(gar.getResourceId());
+//			if(!BeanUtils.isBlank(resource)){
+//				if(resource.isRootNode()) {
+//	                continue;
+//	            }
+//	            if(!"menu".equals(resource.getType())) {
+//	                continue;
+//	            }
+//	            menus.add(resource);
+//			}
+//		}
 		return menus;
 	}
 

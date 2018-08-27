@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -281,5 +282,75 @@ public class BaseServiceImpl<T> implements IBaseService<T> {
 	public List<T> getList(String hql,  String sort,
 			String order , Object ... params) throws Exception{
 		return this.baseDao.find(hql, sort, order, params);
+	}
+
+	@Override
+	public List<T> findAllByIObjectCType(Class iClass) {
+		return this.baseDao.findAllByIObjectCType(iClass);
+	}
+
+	@Override
+	public List<T> findByIObjectCType(Class iClass, int page, int pageSize) {
+		return this.baseDao.findByIObjectCType(iClass, page, pageSize);
+	}
+
+	@Override
+	public int execByHQL(String hSQL) throws Exception {
+		return this.baseDao.execByHQL(hSQL);
+	}
+
+	@Override
+	public int execByHQL(String hSQL, T[] t) {
+		return this.baseDao.execByHQL(hSQL, t);
+	}
+
+	@Override
+	public List<T> findAllByCriteria(DetachedCriteria detachedCriteria) {
+		return this.baseDao.findAllByCriteria(detachedCriteria);
+	}
+
+	@Override
+	public List<T> findPageByCriteria(DetachedCriteria detachedCriteria, int pageSize, int page) {
+		return this.baseDao.findPageByCriteria(detachedCriteria, pageSize, page);
+	}
+
+	@Override
+	public int getCountByCriteria(DetachedCriteria detachedCriteria) {
+		return this.baseDao.getCountByCriteria(detachedCriteria);
+	}
+
+	@Override
+	public List getAllBySQL(String sql, String[] fields) {
+		return this.baseDao.getAllBySQL(sql, fields);
+	}
+
+	@Override
+	public List<T> findPageBySQL(Class clazz, String sql, List params, int pageSize, int page) {
+		return this.baseDao.findPageBySQL(clazz, sql, params, pageSize, page);
+	}
+
+	@Override
+	public Integer findPageBySQLCount(String sql, Object[] params) {
+		return this.baseDao.findPageBySQLCount(sql, params);
+	}
+
+	@Override
+	public Integer findPageBySQLSimpleCount(String sql) {
+		return this.baseDao.findPageBySQLSimpleCount(sql);
+	}
+
+	@Override
+	public List<T> findBySQL(String sql) {
+		return this.baseDao.findBySQL(sql);
+	}
+
+	@Override
+	public List<T> findBySQL(Class clazz, String sql, List params) {
+		return this.baseDao.findBySQL(clazz, sql, params);
+	}
+
+	@Override
+	public int execBySQL(String sql) {
+		return this.baseDao.execBySQL(sql);
 	}
 }

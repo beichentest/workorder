@@ -20,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.mgt.RealmSecurityManager;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.subject.PrincipalCollection;
@@ -110,11 +111,11 @@ public class UserAction {
 			map.put("passwd", user.getPasswd());
 			map.put("registerDate", user.getRegisterDate());
 			map.put("locked", user.getLocked());
-			map.put("group_name", user.getGroup().getName());
+			map.put("group_name", user.getGroup()==null?"":user.getGroup().getName());
 			map.put("realName", user.getRealName());
 			map.put("email", user.getEmail());
 			map.put("mobilePhone", user.getMobilePhone());
-			map.put("group.id", user.getGroup().getId());
+			map.put("group.id", user.getGroup()==null?"":user.getGroup().getId());
 			jsonList.add(map);
 		}
 		return new Datagrid<Object>(p.getTotal(), jsonList);
@@ -177,9 +178,9 @@ public class UserAction {
 		String passwd = request.getParameter("passwd");
 		user.setPasswd(passwd);
 		this.userService.doUpdate(user);
-		Subject currentUser = SecurityUtils.getSubject();
-		UserRealm ur = new UserRealm();
-		ur.clearCachedAuthenticationInfo(currentUser.getPrincipals());
+		clearCacheSubject();
+//		UserRealm ur = new UserRealm();
+//		ur.clearCachedAuthenticationInfo(currentUser.getPrincipals());
 		
 		message.setStatus(Boolean.TRUE);
 		message.setMessage("修改成功！");
@@ -236,14 +237,21 @@ public class UserAction {
 		if(message.getStatus()){
 			this.userService.doUpdate(user);
 			//清空认证缓存
-			Subject currentUser = SecurityUtils.getSubject();
-			UserRealm ur = new UserRealm();
-			ur.clearCachedAuthenticationInfo(currentUser.getPrincipals());
-			
+//			Subject currentUser = SecurityUtils.getSubject();			
+//			UserRealm ur = new UserRealm();
+//			ur.clearCachedAuthenticationInfo(currentUser.getPrincipals());
+			clearCacheSubject();
 			message.setStatus(Boolean.TRUE);
 			message.setMessage("修改成功！");
 		}
 		return message;
+	}
+
+	private void clearCacheSubject() {
+		RealmSecurityManager securityManager =  
+			      (RealmSecurityManager) SecurityUtils.getSecurityManager();  
+		UserRealm userRealm = (UserRealm)securityManager.getRealms().iterator().next();
+		userRealm.clearAllCache();
 	}
 	
 	
@@ -257,10 +265,8 @@ public class UserAction {
 			user.setId(id);
 			this.userService.doDelete(user, synToActiviti);
 			//清空认证和权限缓存
-			Subject currentUser = SecurityUtils.getSubject();
-			UserRealm ur = new UserRealm();
-			ur.clearCache(currentUser.getPrincipals());
-			
+//			Subject currentUser = SecurityUtils.getSubject();
+			clearCacheSubject();
 			return new Message(Boolean.TRUE, "删除成功！");
 		}else{
 			return new Message(Boolean.FALSE, "删除失败！ID为空！");
@@ -282,10 +288,10 @@ public class UserAction {
         for(Session session : sessions){
         	Map<String, Object> map=new HashMap<String, Object>();
         	PrincipalCollection principalCollection = (PrincipalCollection) session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
-        	String userName = (String)principalCollection.getPrimaryPrincipal();
+        	User user = (User)principalCollection.getPrimaryPrincipal();
         	Boolean forceLogout = session.getAttribute(Constants.SESSION_FORCE_LOGOUT_KEY) != null;
         	map.put("id", session.getId());
-        	map.put("userName", userName);
+        	map.put("userName", user.getRealName());
         	map.put("host", session.getHost());
         	map.put("lastAccessTime", session.getLastAccessTime());
         	map.put("forceLogout", forceLogout);

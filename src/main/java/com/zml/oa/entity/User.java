@@ -192,4 +192,12 @@ public class User implements Serializable{
 	public void setMobilePhone(String mobilePhone) {
 		this.mobilePhone = mobilePhone;
 	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", passwd=" + passwd + ", salt=" + salt + ", registerDate="
+				+ registerDate + ", locked=" + locked + ", group=" + group + ", realName=" + realName + ", email="
+				+ email + ", mobilePhone=" + mobilePhone + "]";
+	}
+	
 }
