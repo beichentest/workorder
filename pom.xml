@@ -12,7 +12,7 @@
 		<jpa.version>1.3.2.RELEASE</jpa.version>
     	<hibernat.version>4.3.11.Final</hibernat.version>
     	<spring.version>4.0.9.RELEASE</spring.version>
-    	<activiti.version>5.16</activiti.version>
+    	<activiti.version>5.16.3</activiti.version>
     	<shiro.version>1.2.3</shiro.version>
   </properties>  
   <dependencies>

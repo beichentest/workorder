@@ -11,11 +11,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.zml.oa.entity.User;
 import com.zml.oa.pagination.Page;
+import com.zml.oa.service.IDelegateService;
 import com.zml.oa.service.IUserService;
 
 public class UserServiceImplTest extends BaseJunit4Test{
 	@Autowired
 	private IUserService userService;
+	@Autowired
+	private IDelegateService delegateService;
 	
 	@Test
 	public void getUserByName() {
@@ -185,5 +188,9 @@ public class UserServiceImplTest extends BaseJunit4Test{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	@Test
+	public void getDelegate() {
+		System.out.println(delegateService.getAttorney(20, new Date()));
 	}
 }

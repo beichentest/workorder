@@ -106,7 +106,7 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<T> findByPage(String hql, int firstResult, int maxResult) throws Exception {
-		return getHibernateTemplate().execute(new HibernateCallback<List<T>>() {
+		return getHibernateTemplate().executeWithNativeSession(new HibernateCallback<List<T>>() {
 			@Override
 			public List<T> doInHibernate(Session session) throws HibernateException {
 				Query query = session.createQuery(hql);
@@ -125,7 +125,7 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public T unique(String hql) throws Exception {
-		return getHibernateTemplate().execute(new HibernateCallback<T>() {
+		return getHibernateTemplate().executeWithNativeSession(new HibernateCallback<T>() {
 			@Override
 			public T doInHibernate(Session session) throws HibernateException {
 				Query query = session.createQuery(hql);
@@ -138,7 +138,7 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
 
 	@Override
 	public Long count(String hql) {
-		return getHibernateTemplate().execute(new HibernateCallback<Long>() {
+		return getHibernateTemplate().executeWithNativeSession(new HibernateCallback<Long>() {
 			@Override
 			public Long doInHibernate(Session session) throws HibernateException {
 				Query query = session.createQuery(hql);
@@ -151,7 +151,7 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
 	@Override
 	public Integer count(String hql, Object... params) {
 		if (StringUtils.isNotBlank(hql)) {
-			return getHibernateTemplate().execute(new HibernateCallback<Integer>() {
+			return getHibernateTemplate().executeWithNativeSession(new HibernateCallback<Integer>() {
 				@Override
 				public Integer doInHibernate(Session session) throws HibernateException {
 					String tempHql = hql.toLowerCase();
@@ -198,7 +198,7 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
 
 	@Override
 	public List<T> findByPage(String hql, int firstResult, int maxResult, String sort, String order) throws Exception {
-		return getHibernateTemplate().execute(new HibernateCallback<List<T>>() {
+		return getHibernateTemplate().executeWithNativeSession(new HibernateCallback<List<T>>() {
 			@Override
 			public List<T> doInHibernate(Session session) throws HibernateException {
 				String hqlDo = hql;
@@ -224,7 +224,7 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
 	@Override
 	public List<T> findByPage(String hql, int firstResult, int maxResult, String sort, String order, Object... params)
 			throws Exception {
-		return getHibernateTemplate().execute(new HibernateCallback<List<T>>() {
+		return getHibernateTemplate().executeWithNativeSession(new HibernateCallback<List<T>>() {
 			@Override
 			public List<T> doInHibernate(Session session) throws HibernateException {
 				String hqlDo = hql;
@@ -261,7 +261,7 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
 
 	@Override
 	public List<T> find(String hql, String sort, String order, Object... params) throws Exception {
-		return getHibernateTemplate().execute(new HibernateCallback<List<T>>() {
+		return getHibernateTemplate().executeWithNativeSession(new HibernateCallback<List<T>>() {
 			@Override
 			public List<T> doInHibernate(Session session) throws HibernateException {
 				String hqlDo = hql;
@@ -314,7 +314,7 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
 
 	@Override
 	public List<T> findAllByCriteria(DetachedCriteria detachedCriteria) {
-		return (List) getHibernateTemplate().execute(new HibernateCallback() {
+		return (List) getHibernateTemplate().executeWithNativeSession(new HibernateCallback() {
 			public Object doInHibernate(Session session) throws HibernateException {
 				Criteria criteria = detachedCriteria.getExecutableCriteria(session);
 				return criteria.list();
@@ -330,7 +330,7 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
 
 	@Override
 	public int getCountByCriteria(DetachedCriteria detachedCriteria) {
-		Integer count = (Integer) getHibernateTemplate().execute(new HibernateCallback() {
+		Integer count = (Integer) getHibernateTemplate().executeWithNativeSession(new HibernateCallback() {
 			public Object doInHibernate(Session session) throws HibernateException {
 				Criteria criteria = detachedCriteria.getExecutableCriteria(session);
 				return criteria.setProjection(Projections.rowCount()).uniqueResult();
@@ -382,7 +382,7 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
 
 	@Override
 	public Integer findPageBySQLCount(String sql, Object[] params) {
-		return (Integer) getHibernateTemplate().execute(new HibernateCallback() {
+		return (Integer) getHibernateTemplate().executeWithNativeSession(new HibernateCallback() {
 			public Object doInHibernate(Session session) throws HibernateException {
 				String tempHql = sql.toLowerCase();
 
@@ -405,7 +405,7 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
 
 	@Override
 	public Integer findPageBySQLSimpleCount(String sql) {
-		return (Integer) getHibernateTemplate().execute(new HibernateCallback() {
+		return (Integer) getHibernateTemplate().executeWithNativeSession(new HibernateCallback() {
 			public Object doInHibernate(Session session) throws HibernateException {
 				String tempHql = sql.toLowerCase();
 				int totalCount = Integer.parseInt(session.createSQLQuery(tempHql).list().iterator().next().toString());
@@ -416,7 +416,7 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
 
 	@Override
 	public List<T> findBySQL(String sql) {
-		return (List) getHibernateTemplate().execute(new HibernateCallback() {
+		return (List) getHibernateTemplate().executeWithNativeSession(new HibernateCallback() {
 			public Object doInHibernate(Session session) throws HibernateException {
 
 				Query query = session.createSQLQuery(sql);
@@ -429,7 +429,7 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
 
 	@Override
 	public List<T> findBySQL(Class clazz, String sql, List params) {
-		return (List) getHibernateTemplate().execute(new HibernateCallback() {
+		return (List) getHibernateTemplate().executeWithNativeSession(new HibernateCallback() {
 			public Object doInHibernate(Session session) throws HibernateException {
 				Query query = session.createSQLQuery(sql).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
 				if (params != null && params.size() > 0) {
@@ -454,7 +454,7 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
 
 	@Override
 	public int execBySQL(String sql) {
-		return (Integer) getHibernateTemplate().execute(new HibernateCallback() {
+		return (Integer) getHibernateTemplate().executeWithNativeSession(new HibernateCallback() {
 			public Object doInHibernate(Session session) throws HibernateException {
 				Query query = session.createSQLQuery(sql);
 				return query.executeUpdate();
@@ -474,7 +474,7 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
 	 */
 	private List<T> findPageByCriteria(final DetachedCriteria detachedCriteria, final int pageSize,
 			final int startIndex, boolean isPage, final int page) {
-		return (List<T>) getHibernateTemplate().execute(new HibernateCallback() {
+		return (List<T>) getHibernateTemplate().executeWithNativeSession(new HibernateCallback() {
 			public Object doInHibernate(Session session) throws HibernateException {
 				Criteria criteria = detachedCriteria.getExecutableCriteria(session);
 				int totalCount = (Integer) criteria.setProjection(Projections.rowCount()).uniqueResult();
@@ -486,7 +486,7 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
 
 	private List<T> findPageBySQL(final Class clazz, final String sql, final List params, final int pageSize,
 			final int startIndex, final int page) {
-		return (List<T>) getHibernateTemplate().execute(new HibernateCallback() {
+		return (List<T>) getHibernateTemplate().executeWithNativeSession(new HibernateCallback() {
 			public Object doInHibernate(Session session) throws HibernateException {
 				String tempHql = null;
 				String sqls = sql.toLowerCase();

@@ -208,6 +208,10 @@ public class WorkflowService {
             	vars.put("任务所属角色", "人事组");
             }else if(taskDefinKey.startsWith("manager")){
             	vars.put("任务所属角色", "经理组");
+            }else if(taskDefinKey.equals("tester")||taskDefinKey.equals("commiter")) {
+            	vars.put("任务所属组", "测试");
+            }else if(taskDefinKey.equals("webmaster")) {
+            	vars.put("任务所属组", "运维");
             }
             
             //当前处理人
@@ -316,7 +320,7 @@ public class WorkflowService {
      */
     private void setPosition(ActivityImpl activity, Map<String, Object> activityInfo) {
         activityInfo.put("x", activity.getX());
-        activityInfo.put("y", activity.getY());
+        activityInfo.put("y", activity.getY()-40);
     }
     
     

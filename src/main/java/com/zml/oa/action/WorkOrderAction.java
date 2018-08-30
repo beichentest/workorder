@@ -336,9 +336,9 @@ public class WorkOrderAction implements Serializable{
     			baseWorkOrder.setCoderId(workOrder.getCoderId());
     			baseWorkOrder.setDevelopExplain(workOrder.getDevelopExplain());
     			baseWorkOrder.setApplyDate(new Date());
-    			baseWorkOrder.setStatus(BaseVO.PENDING);
-    			//baseWorkOrder.setTitle(baseWorkOrder.getUser_name()+" 的工单申请,修改后重新提交！");
+    			baseWorkOrder.setStatus(BaseVO.PENDING);    			
     			baseWorkOrder.setPriority(workOrder.getPriority());
+    			variables.put("coderId", workOrder.getCoderId().toString());
     			variables.put("priority", workOrder.getPriority());
     		}else if("coder".equals(taskDefKey)||"coderUpdate".equals(taskDefKey)) {    //开发人员录入 coderUpdate
     			variables.put("coderId", user.getId().toString());

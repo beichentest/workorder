@@ -55,6 +55,7 @@ import com.zml.oa.service.IProcessService;
 import com.zml.oa.service.IUserService;
 import com.zml.oa.service.activiti.WorkflowDeployService;
 import com.zml.oa.service.activiti.WorkflowService;
+import com.zml.oa.util.DateUtil;
 import com.zml.oa.util.ProcessDefinitionCache;
 import com.zml.oa.util.UserUtil;
 import com.zml.oa.util.WorkflowUtils;
@@ -137,7 +138,8 @@ public class ProcessAction {
     @RequestMapping(value = "/process/process-instance")
     public void loadByProcessInstance(@RequestParam("type") String resourceType, @RequestParam("pid") String processInstanceId, HttpServletResponse response)
             throws Exception {
-        InputStream resourceAsStream = this.processService.getDiagramByProInstanceId_noTrace(resourceType, processInstanceId);
+        //InputStream resourceAsStream = this.processService.getDiagramByProInstanceId_noTrace(resourceType, processInstanceId);
+    	InputStream resourceAsStream = this.processService.getDiagramByProInstanceId_flows(resourceType, processInstanceId);
         byte[] b = new byte[1024];
         int len = -1;
         while ((len = resourceAsStream.read(b, 0, 1024)) != -1) {
@@ -408,10 +410,17 @@ public class ProcessAction {
     		pie.setProcessDefinitionId(processInstance.getProcessDefinitionId());
     		pie.setActivityId(processInstance.getActivityId());
     		pie.setSuspended(processInstance.isSuspended());
-    		
+    		Map<String,Object> map = processInstance.getProcessVariables();
     		ProcessDefinitionCache.setRepositoryService(this.repositoryService);
     		String taskName = ProcessDefinitionCache.getActivityName(processInstance.getProcessDefinitionId(), processInstance.getActivityId());
     		pie.setTaskName(taskName);
+    		BaseVO base = processService.getRunVariable(processInstance.getId());
+    		pie.setTitle(base.getTitle());
+    		if(base instanceof WorkOrder) {
+    			WorkOrder workOrder = (WorkOrder)base;
+    			if(workOrder!=null)
+    			pie.setStartTime(DateUtil.DateToString(workOrder.getApplyDate(),"yyyy-MM-dd HH:mm:ss"));
+    		}
     		pieList.add(pie);
     		
     	}

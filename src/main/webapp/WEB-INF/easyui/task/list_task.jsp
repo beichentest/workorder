@@ -37,9 +37,9 @@
 		<div title="待办任务" closable="true" data-options="selected:true" style="padding:5 0 0 0;">
 			<table id="todoTask" title="待办任务列表"></table>
 		</div>
-		<div title="已完成的任务" closable="true" style="padding:5 0 0 0;">
+		<!-- <div title="已完成的任务" closable="true" style="padding:5 0 0 0;">
 			<table id="endTask" title="已完成任务"></table>
-		</div>
+		</div> -->
 	</div>
 	
 	<div id="task" class="easyui-dialog" closed="true">

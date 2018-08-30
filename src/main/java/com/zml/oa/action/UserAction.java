@@ -212,9 +212,9 @@ public class UserAction {
 		String email = request.getParameter("email");
 		String mobilePhone = request.getParameter("mobilePhone");
 		Message message = new Message();
-		User user = new User();
+		User user = null;
 		if(StringUtils.isNotEmpty(id)){
-			user.setId(new Integer(id));
+			user = userService.getUserById(new Integer(id));			
 			user.setName(name);
 			user.setSalt(salt);
 			user.setPasswd(passwd);

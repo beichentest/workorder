@@ -91,7 +91,7 @@
 								<tr>
 									<td>${comment.userName}</td>
 									<td><fmt:formatDate value="${comment.time }" type="date" /></td>
-									<td>${comment.content}</td>
+									<td><span title='${comment.content}'>${comment.content}</span></td>
 								</tr>
 							</c:forEach>
 						</tbody>

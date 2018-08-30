@@ -22,9 +22,11 @@ $(function() {
 		    [ 
                 {field : 'id',title : '执行ID',width : fixWidth(0.2),align : 'center'},
                 {field : 'processInstanceId',title : '流程实例ID',width : fixWidth(0.1),align : 'center'},
-                {field : 'processDefinitionId',title : '流程定义ID',width : fixWidth(0.2),align : 'center'},
-                {field : 'activityId',title : 'activityId',width : fixWidth(0.1),align : 'center'},
-                {field : 'taskName',title : '当前节点',width : fixWidth(0.3),align : 'center',
+                //{field : 'processDefinitionId',title : '流程定义ID',width : fixWidth(0.2),align : 'center'},
+                //{field : 'activityId',title : 'activityId',width : fixWidth(0.1),align : 'center'},
+                {field : 'title',title : '标题',width : fixWidth(0.2),align : 'center'},
+                {field : 'startTime',title : '开始时间',width : fixWidth(0.2),align : 'center'},
+                {field : 'taskName',title : '当前节点',width : fixWidth(0.2),align : 'center',
                 	formatter:function(value, row){
                 		return "<a class='trace' onclick=\"graphTrace('"+row.processInstanceId+"')\" id='diagram' href='#' pid='"+row.id+"' pdid='"+row.processDefinitionId+"' title='see'>"+value+"</a>";
 					}

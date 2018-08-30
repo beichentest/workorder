@@ -1,6 +1,7 @@
 package com.zml.oa.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 流程实例试题 act_ru_execution
@@ -18,6 +19,8 @@ public class ProcessInstanceEntity implements Serializable {
 	private String activityId; 				//流程节点id
 	private Boolean suspended;				//挂起/激活
 	private String taskName;				//当前节点名称
+	private String title;                   //当前流程标题
+	private String startTime;                 //当前流程开始时间
 	
 	  /**
 	   * The name of the process definition of the process instance.
@@ -132,5 +135,20 @@ public class ProcessInstanceEntity implements Serializable {
 		this.taskName = taskName;
 	}
 
-	
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+
 }

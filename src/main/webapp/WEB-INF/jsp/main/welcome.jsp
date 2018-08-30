@@ -15,7 +15,7 @@
 
 	<div id="main">
        
-		<h1 style="margin-top:80px;font-size:30px;"><strong>欢迎使用工作流系统</strong></h1>
+		<h1 style="margin-top:80px;font-size:30px;"><strong>欢迎使用电子工单系统</strong></h1>
     
     </div>
     

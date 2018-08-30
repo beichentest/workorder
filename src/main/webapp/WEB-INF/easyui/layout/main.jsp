@@ -11,9 +11,9 @@
 
 	<div data-options="region:'north',border:false" title="" style="overflow: hidden; padding: 5px;">
 		<div class="well well-small">
-			<h1 style="font-size:30px;"><strong>欢迎使用工作流系统</strong></h1>
+			<h1 style="font-size:30px;"><strong>欢迎使用电子工单系统</strong></h1>
 			<span class="badge" iconCls="icon-save" plain="true" >系统初始化</span>
-			<p>
+			<!-- <p>
 				不同角色拥有不同的功能菜单，可通过 <span class="label-info"><strong>用户组管理</strong></span>进行权限控制。<br/>
 				<br/><br/>
 				1、在<span class="label-info"><strong>用户管理</strong></span>界面点击<span class="label-info"><strong>同步用户</strong></span>按钮，把系统用户和组关系同步到activiti默认的用户表和组表中。<br/><br/>
@@ -23,7 +23,7 @@
 				
 				3、在<span class="label-info"><strong>审批设定</strong></span>界面点击<span class="label-info"><strong>初始化</strong></span>按钮，将每个流程描述文件中的用户任务节点初始化到t_user_task表中，此表是用来保存流程文件中设定好的<br/>
 				   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;审批人员。初始化完成后，逐个设定审批人员（点击设定人员按钮即可）。如果某个流程描述文件新增或减少了用户任务，则点击设定人员后面的加载按钮即可同步节点。<br/>
-			</p>
+			</p> -->
 		</div>
 	</div>
     

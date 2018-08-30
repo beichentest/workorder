@@ -129,6 +129,14 @@ public interface IProcessService {
      * @return
      */
     public InputStream getDiagramByProInstanceId_noTrace(String resourceType, String processInstanceId) throws Exception;
+    /**
+     * 显示图片-通过流程ID，带流程跟踪连线
+     * @param resourceType
+     * @param processInstanceId
+     * @return
+     * @throws Exception
+     */
+    public InputStream getDiagramByProInstanceId_flows(String resourceType, String processInstanceId) throws Exception;
     
     /**
      * 显示图片-通过部署ID，不带流程跟踪(没有乱码啊问题)
@@ -217,5 +225,11 @@ public interface IProcessService {
 	 * @return
 	 */
 	public String startWordOrder(WorkOrder workOrder)throws Exception;
+	/**
+	 * 获取当前运行实例中的变量
+	 * @param processInstanceId
+	 * @return
+	 */
+	public BaseVO getRunVariable(String processInstanceId);
 
 }

@@ -50,7 +50,7 @@ public class ProcessDefinitionCache {
     public static ActivityImpl getActivity(String processDefinitionId, String activityId) {
         ProcessDefinition processDefinition = get(processDefinitionId);
         if (processDefinition != null) {
-            ActivityImpl activityImpl = singleActivity.get(processDefinitionId + "_" + activityId);
+            ActivityImpl activityImpl = singleActivity.get(processDefinitionId + "_" + activityId);            
             if (activityImpl != null) {
                 return activityImpl;
             }
