@@ -67,6 +67,12 @@ public class Domain implements Serializable{
 	@Column(name="MANAGER")
 	private String manager;
 	/**
+	 * 机房
+	 */
+	@Column(name="MOTOR_ROOM")
+	private String motorRoom;
+	
+	/**
 	 * 备注
 	 */
 	@Column(name="memo")
@@ -155,5 +161,11 @@ public class Domain implements Serializable{
 	}
 	public void setProjects(Set<Project> projects) {
 		this.projects = projects;
+	}
+	public String getMotorRoom() {
+		return motorRoom;
+	}
+	public void setMotorRoom(String motorRoom) {
+		this.motorRoom = motorRoom;
 	}
 }

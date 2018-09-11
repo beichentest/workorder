@@ -14,8 +14,7 @@ var user_dialog;
 var transfer_dialog;
 
 $(function() {
-	showToDoTask();
-	
+	showToDoTask();	
 	$('#tabs').tabs({
 	    border:false,
 	    onSelect:function(title,index){
@@ -26,8 +25,12 @@ $(function() {
 	        }
 	    }
 	});
-
+	setInterval('myrefresh()', 60000*5);
 });
+
+function myrefresh(){
+	todoTask_datagrid.datagrid('reload');
+}
 
 //修正宽高
 function fixHeight(percent)   

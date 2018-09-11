@@ -76,7 +76,7 @@ public class DomainAction {
 	@RequestMapping("/toList")
 	@ResponseBody
 	public Datagrid<Object> userList(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "rows", required = false) Integer rows,String sort,String order,String name) throws Exception{
-		//String sql = "select d from Domain d where d.status='0' ";
+		sort = com.zml.oa.util.StringUtils.camel2Underline(sort);
 		String sql = "select d from Domain d  left outer join fetch d.projects where 1=1 ";
 		Page<Domain> p = new Page<Domain>(page, rows);		
 		List<Object> values = new ArrayList<Object>();
@@ -227,6 +227,7 @@ public class DomainAction {
 			domainOrig.setManager(domain.getManager());
 			domainOrig.setReleaseDate(domain.getReleaseDate());
 			domainOrig.setMemo(domain.getMemo());
+			domainOrig.setMotorRoom(domain.getMotorRoom());
 			domainService.doUpdate(domainOrig);
 		}		
 		message.setStatus(Boolean.TRUE);

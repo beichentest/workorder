@@ -20,11 +20,12 @@ $(function() {
 		striped:true,
         columns : [ 
             [ 
-              {field : 'name',title : '名称',width : fixWidth(0.1),align : 'left',sortable: true, editor : {type:'validatebox',options:{required:true}}},
+              {field : 'name',title : '名称',width : fixWidth(0.1),align : 'left', editor : {type:'validatebox',options:{required:true}}},
               {field : 'domain',title : '域名',width : fixWidth(0.2),align : 'left',sortable: true, editor : {type:'validatebox',options:{required:true}}},
-              {field : 'subjection',title : '归属',width : fixWidth(0.08),align : 'left',editor : {type:'validatebox',options:{required:true}}},
-              {field : 'area',title : '地区',width : fixWidth(0.1),align : 'left',editor : {type:'validatebox',options:{required:true}}},
-              {field : 'manager',title : '负责人',width : fixWidth(0.08),align : 'left',editor : {type:'validatebox',options:{required:true}}},
+              {field : 'subjection',title : '归属',width : fixWidth(0.08),align : 'left',sortable: true,editor : {type:'validatebox',options:{required:true}}},
+              {field : 'area',title : '地区',width : fixWidth(0.1),align : 'left',sortable: true,editor : {type:'validatebox',options:{required:true}}},
+              {field : 'manager',title : '负责人',width : fixWidth(0.08),align : 'left',sortable: true,editor : {type:'validatebox',options:{required:true}}},
+              {field : 'motorRoom',title : '所在机房',width : fixWidth(0.08),align : 'left',sortable: true,editor : {type:'validatebox',options:{required:true}}},
               {field : 'status',title : '状态',width : fixWidth(0.1),align : 'center',editor : {type:'validatebox',options:{required:true}},
             	  formatter:function(value,row){
 	        		  if("0"==row.status){
@@ -217,7 +218,7 @@ function del() {
 }
 
 function doSearch (){
-		$('#project_datagrid').datagrid('load',{
+		$('#domain_datagrid').datagrid('load',{
 			name: $('#name').val()			
 		});
 	}

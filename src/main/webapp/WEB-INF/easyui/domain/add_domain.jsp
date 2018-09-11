@@ -64,6 +64,10 @@
         <div class="fitem">
             <label>负责人:</label>
             <input id="manager" name="manager" class="easyui-textbox easyui-validatebox" required="true">
+        </div>
+        <div class="fitem">
+            <label>所在机房:</label>
+            <input id="motorRoom" name="motorRoom" class="easyui-textbox easyui-validatebox" required="true">
         </div>        
          <div class="fitem">
             <label>上线日期:</label>
