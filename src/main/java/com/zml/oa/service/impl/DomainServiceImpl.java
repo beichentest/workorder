@@ -77,4 +77,12 @@ public class DomainServiceImpl extends BaseServiceImpl<Domain>implements IDomain
 		String order = "asc";
 		return getDomainList(sql, p, null, sort, order);		
 	}
+	
+	@Override
+	public List<Domain> findDomainByProjectId(Integer projectId)throws Exception{
+		String sql = "select d.* from t_domain d,t_domain_project dp where d.id=dp.domain_id and dp.project_id=? and d.status=0 order by d.id";
+		List<Integer> params = new ArrayList<Integer>();
+		params.add(projectId);
+		return this.findBySQL(Domain.class, sql, params);
+	}
 }

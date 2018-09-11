@@ -23,4 +23,6 @@ public interface IDomainService {
 	public void doDelete(Integer id, String status)throws Exception;
 
 	public List<Domain> findByOnline()throws Exception ;
+	
+	public List<Domain> findDomainByProjectId(Integer projectId)throws Exception;
 }

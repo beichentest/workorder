@@ -2,16 +2,15 @@ package com.zml.oa.action;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import com.zml.oa.util.DateEditor;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -24,10 +23,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zml.oa.entity.Datagrid;
+import com.zml.oa.entity.Domain;
 import com.zml.oa.entity.Message;
 import com.zml.oa.entity.Project;
 import com.zml.oa.pagination.Page;
+import com.zml.oa.service.IDomainService;
 import com.zml.oa.service.IProjectService;
+import com.zml.oa.util.DateEditor;
 /**
  * 
 * @ClassName: ProjectAction  
@@ -43,6 +45,8 @@ public class ProjectAction {
 	
 	@Autowired
 	private IProjectService projectService;
+	@Autowired
+	private IDomainService domainService;
 	
 //	@RequiresPermissions("admin:*")
 //	@RequestMapping("/toList_page")
@@ -144,6 +148,24 @@ public class ProjectAction {
 		message.setMessage("修改成功！");
 		return message;
 	}
+	@RequestMapping(value = "/toShowDomain/{id}")
+	public String toShowDomain(@PathVariable("id") Integer id,Model model)throws Exception{	
+		model.addAttribute("projectId", id);
+		return "project/show_domain";
+	}
+	
+	@RequestMapping(value = "/showDomain")
+	@ResponseBody
+	public List<Object> showDomain(Integer projectId,Model model)throws Exception{
+		List<Domain> domainList = domainService.findDomainByProjectId(projectId);
+		List<Object> jsonList=new ArrayList<Object>();
+		for (Domain domain : domainList) {
+			jsonList.add(BeanUtils.describe(domain));
+		}
+		return jsonList;
+	}
+	
+	
 //	
 //	@RequestMapping(value = "/showUser")
 //	public String showUser(Model model) throws Exception{

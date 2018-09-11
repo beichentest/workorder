@@ -29,6 +29,11 @@ $(function() {
               {field : 'versionPrefix',title : '项目版本号',width : fixWidth(0.08),align : 'left',editor : {type:'validatebox',options:{required:true}}},
               {field : 'versionCode',title : '程序起始版本',width : fixWidth(0.08),align : 'left',editor : {type:'validatebox',options:{required:true}}},
               {field : 'versionNoCode',title : '非程序起始版本',width : fixWidth(0.08),align : 'left',editor : {type:'validatebox',options:{required:true}}},
+              {field : 'id',title : '域名',width : fixWidth(0.05),align : 'left', 
+            	  formatter : function(value){
+	                  return '<a href="javascript:void(0);" onclick="showDomain('+value+');">域名</a>';
+              	 }
+              },
               {field : 'releaseTime',title : '发布时间',width : fixWidth(0.1),editor : "datebox",sortable: true,
             	  formatter : function(value){
                       var date = new Date(value);
@@ -122,6 +127,42 @@ function formInit(row) {
     });
 }
 
+function showDomain(projectId){
+	//弹出对话窗口
+	var domain_dialog;
+	var _url = ctx+"/projectAction/toShowDomain/"+projectId;
+    domain_dialog = $('<div/>').dialog({
+    	title : "域名信息",
+		top: 20,
+		width : 800,
+		height : 300,
+        modal: true,
+        minimizable: true,
+        maximizable: true,
+        href: _url,
+        onLoad: function () {
+            formInit(row);
+            if (row) {
+            	user_form.form('load', row);
+            } else {
+            	$("input[name=locked]:eq(0)").attr("checked", 'checked');//状态 初始化值
+            }
+
+        },
+        buttons: [           
+            {
+                text: '关闭',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                	domain_dialog.dialog('destroy');
+                }
+            }
+        ],
+        onClose: function () {
+        	domain_dialog.dialog('destroy');
+        }
+    });
+}
 
 //显示弹出窗口 新增：row为空 编辑:row有值
 function showUser(row) {

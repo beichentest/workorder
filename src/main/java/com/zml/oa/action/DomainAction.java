@@ -146,7 +146,8 @@ public class DomainAction {
 		if(domainList!=null&&domainList.size()>0) {
 			List<Object> jsonList=new ArrayList<Object>();
 			for (Project project : domainList.get(0).getProjects()) {
-				jsonList.add(BeanUtils.describe(project));
+				if(project.getStatus().equals("0"))
+					jsonList.add(BeanUtils.describe(project));
 			}
 			return jsonList;
 		}
