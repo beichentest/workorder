@@ -219,7 +219,8 @@ function del() {
 
 function doSearch (){
 		$('#domain_datagrid').datagrid('load',{
-			name: $('#name').val()			
+			name: $('#name').val(),
+			domain: $('#domain').val()
 		});
 	}
 function project(){

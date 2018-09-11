@@ -75,19 +75,23 @@ public class DomainAction {
 	 */
 	@RequestMapping("/toList")
 	@ResponseBody
-	public Datagrid<Object> userList(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "rows", required = false) Integer rows,String sort,String order,String name) throws Exception{
+	public Datagrid<Object> userList(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "rows", required = false) Integer rows,String sort,String order,String name,String domain) throws Exception{
 		sort = com.zml.oa.util.StringUtils.camel2Underline(sort);
 		String sql = "select d from Domain d  left outer join fetch d.projects where 1=1 ";
 		Page<Domain> p = new Page<Domain>(page, rows);		
 		List<Object> values = new ArrayList<Object>();
 		if(StringUtils.isNotBlank(name)) {
-			sql +=" and d.name like ?";
+			sql +=" and d.name like ? ";
 			values.add("%"+name+"%");
+		}
+		if(StringUtils.isNotBlank(domain)) {
+			sql +=" and d.domain like ? ";
+			values.add("%"+domain+"%");
 		}
 		List<Domain> domainList = this.domainService.getDomainList(sql, p, values.toArray(), sort, order);
 		List<Object> jsonList=new ArrayList<Object>(); 
-		for (Domain domain : domainList) {
-			jsonList.add(BeanUtils.describe(domain));
+		for (Domain dom : domainList) {
+			jsonList.add(BeanUtils.describe(dom));
 		}
 		return new Datagrid<Object>(p.getTotal(), jsonList);
 	}

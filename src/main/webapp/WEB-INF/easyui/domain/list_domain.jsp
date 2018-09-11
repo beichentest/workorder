@@ -30,7 +30,9 @@
 						<a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-more" plain="true" onclick="project();">项目</a>|					
 					<%-- </shiro:hasRole> --%>
 					<span class="l-btn-text">名称:</span>
-					<input id="name" style="line-height:26px;border:1px solid #ccc">					
+					<input id="name" style="line-height:26px;border:1px solid #ccc">
+					<span class="l-btn-text">域名:</span>
+					<input id="domain" style="line-height:26px;border:1px solid #ccc">					
 					<a href="#" class="easyui-linkbutton" class="easyui-linkbutton" plain="true" iconCls="icon-search" onclick="doSearch()">查询</a>
 				 </td>	
 			</tr>
