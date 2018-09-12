@@ -23,7 +23,7 @@ $(function() {
     d_project_datagrid = $('#d_project_datagrid').datagrid({
         url: "${ctx}/projectAction/showDomain",
         width : 'auto',
-		height :  100,
+        fit:false,
 		pagination:false,
 		rownumbers:true,
 		border:false,
