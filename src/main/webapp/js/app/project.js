@@ -134,8 +134,8 @@ function showDomain(projectId){
     domain_dialog = $('<div/>').dialog({
     	title : "域名信息",
 		top: 20,
-		width : 800,
-		height : 300,
+		width : 830,
+		height : 500,
         modal: true,
         minimizable: true,
         maximizable: true,

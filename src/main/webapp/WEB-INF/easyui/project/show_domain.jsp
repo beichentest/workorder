@@ -12,7 +12,7 @@
 
 </head>
 <body>
-	<div class="easyui-layout" style="height:300px;margin:0 auto;">                         
+	<div class="easyui-layout" style="height:100%;margin:0 auto;">                         
          <div data-options="region:'center',title:'域名列表'" style="padding:5px;">
          	    <table id="d_project_datagrid" ></table>
          </div>  
