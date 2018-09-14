@@ -177,7 +177,7 @@ public class WorkOrderAction implements Serializable{
 	@RequestMapping(value = "/doAdd")
 	@ResponseBody
 	public Message doAdd(
-			@ModelAttribute("workOrder") WorkOrder workOrder) throws Exception{
+			@ModelAttribute("workOrder") WorkOrder workOrder,HttpServletRequest request) throws Exception{
         User user = UserUtil.getUserFromSession();
         
         // 用户未登录不能操作，实际应用使用权限框架实现，例如Spring Security、Shiro等
@@ -203,6 +203,7 @@ public class WorkOrderAction implements Serializable{
         this.workOrderService.doAdd(workOrder);
         String businessKey = workOrder.getId().toString();
         workOrder.setBusinessKey(businessKey);
+        workOrder.setWebPath(request.getServletContext().getRealPath(""));
         try {
         	String processInstanceId = this.processService.startWordOrder(workOrder);
             message.setStatus(Boolean.TRUE);
@@ -699,56 +700,10 @@ public class WorkOrderAction implements Serializable{
 	@SuppressWarnings("serial")
 	@RequestMapping(value="/downloadWord")
 	public void downloadWord(HttpServletRequest request,HttpServletResponse response,Integer id) throws Exception {
-		String templatePath = "";
 		WorkOrder workOrder = workOrderService.findById(id);
-		if(workOrder.getPriority()!=null&&workOrder.getPriority()==60) {
-			templatePath = "/template/template_60.docx";
-		}else {
-		    templatePath = "/template/template_50.docx";
-		}
-        // 获取应用的根路径
+		// 获取应用的根路径
         String servletContextRealPath = request.getServletContext().getRealPath("");
-        // 获取模板文件
-        File templateFile = new File(servletContextRealPath + templatePath);
-       
-        // 替换读取到的 word 模板内容的指定字段
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("PROJECT_NAME",workOrder.getProject().getName());
-        params.put("NO",workOrder.getId().toString());
-        params.put("DOMAIN",workOrder.getDomain().getDomain());
-        params.put("DEVELOP_EXPLAIN",workOrder.getDevelopExplain());
-        params.put("APPLY_USER",workOrder.getApplyUser());
-        params.put("APPLY_DATE",DateUtil.DateToString(workOrder.getApplyDate(),"yyyy-MM-dd"));
-        params.put("B_AUDIT",workOrder.getBusinessAuditUser());
-        params.put("B_DATE",DateUtil.DateToString(workOrder.getBusinessAuditDate(),"yyyy-MM-dd"));
-        params.put("CODER_VERSION",workOrder.getCoderVersion());
-        params.put("CODER_SVN",workOrder.getCoderSvn());
-        params.put("CODER",workOrder.getCoder());
-        params.put("CODER_DATE",DateUtil.DateToString(workOrder.getCoderDate(),"yyyy-MM-dd"));
-        params.put("C_AUDIT",workOrder.getCoderAudit());
-        params.put("C_DATE",DateUtil.DateToString(workOrder.getCoderAuditDate(),"yyyy-MM-dd"));
-        params.put("TEST_SVN",workOrder.getTestSvn());
-        params.put("TEST_VERSION",workOrder.getTestVersion());
-        params.put("TESTER",workOrder.getTester());
-        params.put("TESTER_DATE",DateUtil.DateToString(workOrder.getTesterDate(),"yyyy-MM-dd"));
-        params.put("T_AUDIT",workOrder.getTesterAudit());
-        params.put("T_DATE",DateUtil.DateToString(workOrder.getTestAuditDate(),"yyyy-MM-dd"));
-        params.put("WEB",workOrder.getWebMaster());
-        params.put("WEB_DATE",DateUtil.DateToString(workOrder.getDeployDate(),"yyyy-MM-dd"));
-        params.put("W_AUDIT",workOrder.getWebMasterAudit());
-        params.put("W_DATE",DateUtil.DateToString(workOrder.getWebMasterAuditDate(),"yyyy-MM-dd"));
-        params.put("VERIFY_DATE",DateUtil.DateToString(workOrder.getVerifyDate(),"yyyy-MM-dd"));
-        params.put("HOME", workOrder.getDomain().getSubjection());
-        params.put("TYPE", workOrder.getType());
-        params.put("AREA", workOrder.getDomain().getArea());
-        params.put("COMMITER", workOrder.getCommiter());
-        params.put("COMMITER_DATE", DateUtil.DateToString(workOrder.getCommiterDate(),"yyyy-MM-dd"));
-        params.put("TEST_DESC", workOrder.getTestDesc());
-        if("1".equals(workOrder.getRollbackFlag())) {
-        	params.put("ROLLBACK", "回滚");
-        }
-        XWPFTemplate template = XWPFTemplate.compile(templateFile)
-				.render(params);
+		XWPFTemplate template = workOrderService.generatePrintWorkorder(servletContextRealPath, workOrder);
         // 输出 word 内容文件流，提供下载
         response.reset();
         response.setContentType("application/x-msdownload");
@@ -765,6 +720,7 @@ public class WorkOrderAction implements Serializable{
         ostream.close();
         template.close();
 	}
+
 	@SuppressWarnings("serial")
 	@RequestMapping(value="/saveExcel")
 	public void saveExcel(HttpServletRequest request,HttpServletResponse response,String applyUser,String projectName,String type,String beginDate,String endDate) throws Exception {

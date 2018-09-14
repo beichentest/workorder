@@ -290,6 +290,9 @@ public class WorkOrder extends BaseVO implements Serializable{
 	@Column(name = "PROJECT_VERSION")
 	private String projectVersion;
 	
+	@Transient
+	private String webPath;
+	
 	public WorkOrder(){
 		
 	}
@@ -723,4 +726,13 @@ public class WorkOrder extends BaseVO implements Serializable{
 			return "否";
 		}
 	}
+
+	public String getWebPath() {
+		return webPath;
+	}
+
+	public void setWebPath(String webPath) {
+		this.webPath = webPath;
+	}
+	
 }

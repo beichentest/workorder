@@ -127,6 +127,7 @@
 	        });
 	        var msg = $("#alertMessage").html();
 	        if(msg != ''){
+	        	$("#jcaptcha").attr("src", '${ctx}/jcaptcha.jpg?'+new Date().getTime());
 		        showError(msg);
 	        }
 	    });

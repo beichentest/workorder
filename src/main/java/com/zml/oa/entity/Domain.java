@@ -92,6 +92,11 @@ public class Domain implements Serializable{
 	 */
 	@Column(name="DISCARD_DATE")
 	private Date discardDate;
+	/**
+	 * 发送邮件标记
+	 */
+	@Column(name="mail_flag")
+	private String mailFlag;
 	
 	@ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(name="t_domain_project",joinColumns={@JoinColumn(name="domain_id")},inverseJoinColumns={@JoinColumn(name="project_id")})
@@ -167,5 +172,11 @@ public class Domain implements Serializable{
 	}
 	public void setMotorRoom(String motorRoom) {
 		this.motorRoom = motorRoom;
+	}
+	public String getMailFlag() {
+		return mailFlag;
+	}
+	public void setMailFlag(String mailFlag) {
+		this.mailFlag = mailFlag;
 	}
 }

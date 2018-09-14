@@ -56,6 +56,11 @@
          <div class="fitem">
             <label>上线日期:</label>
             <input id="releaseDate" name="releaseDate" class="easyui-datebox easyui-validatebox" >
+        </div>
+        <div class="fitem">
+            <label>发送邮件:</label>            
+            <input type="radio" name="mailFlag" value="0" style="width: 20px">否</input>
+            <input type="radio" name="mailFlag" value="1" style="width: 20px">是</input>
         </div>       
         <div class="fitem">
             <label>备注:</label>

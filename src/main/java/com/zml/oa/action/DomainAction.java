@@ -233,6 +233,7 @@ public class DomainAction {
 			domainOrig.setReleaseDate(domain.getReleaseDate());
 			domainOrig.setMemo(domain.getMemo());
 			domainOrig.setMotorRoom(domain.getMotorRoom());
+			domainOrig.setMailFlag(domain.getMailFlag());
 			domainService.doUpdate(domainOrig);
 		}		
 		message.setStatus(Boolean.TRUE);

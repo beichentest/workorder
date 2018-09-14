@@ -140,7 +140,7 @@ function showDomain(row) {
     	title : "域名信息",
 		top: 20,
 		width : 500,
-		height : 380,
+		height : 410,
         modal: true,
         minimizable: true,
         maximizable: true,

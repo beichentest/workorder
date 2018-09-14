@@ -894,6 +894,7 @@ public class ProcessServiceImp implements IProcessService{
         variables.put("lastId", workOrder.getApplyUserId());
         variables.put("applyUserId", workOrder.getApplyUserId().toString());
         variables.put("priority", workOrder.getPriority());
+        variables.put("webPath", workOrder.getWebPath());
         String businessKey = workOrder.getBusinessKey();
         ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("WorkOrder", businessKey, variables);
         String processInstanceId = processInstance.getId();

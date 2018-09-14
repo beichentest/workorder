@@ -6,20 +6,23 @@
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:util="http://www.springframework.org/schema/util"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task"
        xsi:schemaLocation="
           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
           http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd 
           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
-          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+          http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
           
     <!-- 在applicationContext.xml中只加载除表现层之外的所有bean，因此下面一行中不需要加载@Controller -->                       
     <!-- 扫描注解Bean 不包括@Controller(表现层) 保证@Service @Repository的属性被注入-->
     <context:component-scan base-package="com.zml.oa">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
-    
+    <task:executor id="myexecutor" pool-size="5"  />
+	<task:annotation-driven executor="myexecutor"/>
     <!-- 引入配置文件 --> 
 	<context:property-placeholder ignore-unresolvable="true" local-override="true" location="classpath:application.properties"/>
     
@@ -145,7 +148,24 @@
 	<bean id="formService" factory-bean="processEngine" factory-method="getFormService" />
     <!-- 启用缓存注解功能(请将其配置在Spring主配置文件中) -->
 	<cache:annotation-driven cache-manager="springCacheManager" mode="proxy" />
-	
+	<!-- mail -->
+	<bean id="mailSender" name="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host">
+  			<value>${email.host}</value>
+		</property>
+		<property name="javaMailProperties">
+	 		<props>
+	    		<!-- 如果要使用用户名和密码验证,这一步需要 -->
+	   			<prop key="mail.smtp.auth">true</prop>
+	  		</props>
+		</property>
+		<property name="username">
+			<value>${email.username}</value>
+		</property>
+		<property name="password">
+			<value>${email.password}</value>
+		</property>
+	</bean>
     <import resource="classpath:spring-config-cache.xml"/>
     <import resource="classpath:spring-config-shiro.xml"/>
 	
