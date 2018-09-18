@@ -48,8 +48,7 @@ public class ServiceTask {
 		WorkOrder baseWorkOrder = (WorkOrder) execution.getVariable("entity");
 		if(baseWorkOrder!=null&&baseWorkOrder.getDomain()!=null) {
 			if("1".equals(baseWorkOrder.getDomain().getMailFlag())) {
-		        try {
-		        	Thread.currentThread().sleep(10000l);
+		        try {		        	
 		        	XWPFTemplate template = workOrderService.generatePrintWorkorder(webPath, baseWorkOrder);
 		        	ByteArrayOutputStream ostream = new ByteArrayOutputStream();
 					template.write(ostream);
@@ -71,5 +70,15 @@ public class ServiceTask {
         }else {
         	logger.error("==========send fail============="+execution.toString());
         }
+	}
+	@Async
+	public void test() {
+		try {
+			Thread.currentThread().sleep(10000l);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		logger.error("==========================");
 	}
 }
