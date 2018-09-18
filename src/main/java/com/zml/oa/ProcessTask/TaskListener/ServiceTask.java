@@ -32,7 +32,7 @@ import com.zml.oa.util.DateUtil;
 *
  */
 @Service
-@EnableAsync
+//@EnableAsync
 public class ServiceTask {
 	private static final Logger logger = Logger.getLogger(ServiceTask.class);
     @Resource(name="mailSender")
@@ -42,7 +42,7 @@ public class ServiceTask {
 	@Autowired
 	private IUserService userService;
 	
-	@Async
+	//@Async
 	public void sendMail(DelegateExecution execution) {
 		String webPath = (String)execution.getVariable("webPath");
 		WorkOrder baseWorkOrder = (WorkOrder) execution.getVariable("entity");

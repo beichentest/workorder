@@ -74,7 +74,7 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
 		getHibernateTemplate().delete(bean);
 		// this.getSession().delete(bean);
 	}
-
+	@SuppressWarnings("unchecked")
 	@Override
 	public void update(T bean) throws Exception {
 		getHibernateTemplate().update(bean);
