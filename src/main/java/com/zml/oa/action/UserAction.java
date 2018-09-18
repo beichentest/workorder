@@ -335,6 +335,7 @@ public class UserAction {
 			message.setStatus(Boolean.TRUE);
             message.setMessage("同步用户信息成功！");
 		} catch (Exception e) {
+			e.printStackTrace();
 			message.setStatus(Boolean.FALSE);
             message.setMessage("同步用户信息失败！");
 		}

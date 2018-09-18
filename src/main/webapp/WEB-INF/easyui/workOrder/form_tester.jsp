@@ -68,7 +68,7 @@
 	        </div>
 	        <div class="fitem">
             <label>SVN地址:</label>
-	            <input id=coderSvn name="coderSvn" value="${workOrder.coderSvn}" class="easyui-textbox easyui-validatebox" required="true" readonly="readonly">
+	            <input id=coderSvn name="coderSvn" value="${workOrder.coderSvn}" class="easyui-textbox easyui-validatebox" required="true">
 	        </div>
 	        <div class="fitem">
             <label>开发版本:</label>

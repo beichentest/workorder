@@ -88,7 +88,7 @@ public class WorkOrderServiceImpl implements IWorkOrderService {
         File templateFile = new File(servletContextRealPath + templatePath);
         // 替换读取到的 word 模板内容的指定字段
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("PROJECT_NAME",workOrder.getProject().getName());
+        params.put("PROJECT_NAME",workOrder.getDomain().getName());
         params.put("NO",workOrder.getId().toString());
         params.put("DOMAIN",workOrder.getDomain().getDomain());
         params.put("DEVELOP_EXPLAIN",workOrder.getDevelopExplain());
