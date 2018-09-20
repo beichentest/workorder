@@ -359,8 +359,9 @@ public class WorkOrderAction implements Serializable {
 				for (Project project : domainSet) {
 					logger.info(project.getName());
 				}
+				baseWorkOrder.setType(workOrder.getType());
 				baseWorkOrder.setDomain(domain);
-				// baseWorkOrder.setDomain(workOrder.getDomain());
+				baseWorkOrder.setTitle(domain.getName() + "(" + user.getRealName() + ")");
 				baseWorkOrder.setCoder(workOrder.getCoder());
 				baseWorkOrder.setCoderId(workOrder.getCoderId());
 				baseWorkOrder.setDevelopExplain(workOrder.getDevelopExplain());
@@ -377,6 +378,7 @@ public class WorkOrderAction implements Serializable {
 				variables.put("priority", workOrder.getPriority());
 			} else if ("coder".equals(taskDefKey) || "coderUpdate".equals(taskDefKey)) { // 开发人员录入 coderUpdate
 				variables.put("coderId", user.getId().toString());
+				baseWorkOrder.setType(workOrder.getType());
 				baseWorkOrder.setProject(projectService.getProjectById(workOrder.getProject().getId()));
 				baseWorkOrder.setDevelopExplain(workOrder.getDevelopExplain());
 				baseWorkOrder.setCoder(user.getRealName());
