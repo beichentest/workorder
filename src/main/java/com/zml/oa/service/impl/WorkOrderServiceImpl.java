@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -119,11 +121,25 @@ public class WorkOrderServiceImpl implements IWorkOrderService {
         params.put("COMMITER", workOrder.getCommiter());
         params.put("COMMITER_DATE", DateUtil.DateToString(workOrder.getCommiterDate(),"yyyy-MM-dd"));
         params.put("TEST_DESC", workOrder.getTestDesc());
+        if(workOrder.getTestFlag()==0) {
+        	params.put("T_T_AUDIT", workOrder.getTesterAudit());
+        	params.put("T_T_DATE", DateUtil.DateToString(workOrder.getTestAuditDate(),"yyyy-MM-dd"));
+        }else {
+        	params.put("T_T_AUDIT", "");
+        	params.put("T_T_DATE", "");
+        }
         if("1".equals(workOrder.getRollbackFlag())) {
         	params.put("ROLLBACK", "回滚");
         }
         XWPFTemplate template = XWPFTemplate.compile(templateFile)
 				.render(params);
 		return template;
+	}
+
+	@Override
+	public List<WorkOrder> getWorkOrderByAccessoryId(Integer accessoryId) throws Exception {
+		DetachedCriteria dc = DetachedCriteria.forClass(WorkOrder.class);
+		dc.add(Restrictions.or(Restrictions.eq("script.id", accessoryId),Restrictions.eq("accessory.id", accessoryId)));
+		return baseService.findAllByCriteria(dc);		
 	}
 }

@@ -4,6 +4,7 @@ public class Message {
 	private String title = "提示";
 	private String message;
 	private Boolean status = true;
+	private String memo;
 	
 	public Message(){
 		
@@ -36,6 +37,14 @@ public class Message {
 
 	public void setStatus(Boolean status) {
 		this.status = status;
+	}
+
+	public String getMemo() {
+		return memo;
+	}
+
+	public void setMemo(String memo) {
+		this.memo = memo;
 	}
 
 }

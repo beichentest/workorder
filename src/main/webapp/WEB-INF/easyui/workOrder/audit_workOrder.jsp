@@ -35,7 +35,7 @@
 		<input type="hidden" id="completeFlag" name="completeFlag" value="" />
 		<div class="fitem">
 	       <label>涉及项目:</label>
-	          <select id="project_id" class="easyui-combobox" name="projectId" disabled="disabled" style="width:160px;">
+	          <select id="project_id" class="easyui-combobox" name="projectId" disabled="disabled" style="width:380px;">
 				    <option value="0">SIP科教</option>
 				    <option value="1">SIP北京乡医</option>
 				    <option value="2">SIP——ICME</option>
@@ -47,13 +47,25 @@
 	        </div>
 	        <div class="fitem">
 	            <label>功能需求:</label>
-	            <input id="develop_explain" name="developExplain" value="${workOrder.developExplain}" class="easyui-textbox" required="true" readonly="readonly" data-options="multiline:true" style="height:70px; width: 300px">
+	            <input id="develop_explain" name="developExplain" value="${workOrder.developExplain}" class="easyui-textbox" required="true" readonly="readonly" data-options="multiline:true" style="height:70px; width: 380px">
 	        </div>
 	        <div class="fitem">
 	            <label>开发人员:</label>	            
 	            <input id="userName" name="coder" type="text" value="${workOrder.coder}" readonly="readonly" style="height: 23px;margin-left:0px" readonly="readonly">
 	            <input id="userId" name="coderId" type="hidden" value="${workOrder.coderId}"><a class="easyui-linkbutton" icon="icon-search" href="javascript:void(0)" onclick="chooseUser();">选择委派人</a>
 	        </div>
+	        <c:if test="${workOrder.accessory!=null}">
+		         <div class="fitem">
+		         <label>附件下载:</label>
+		          <a href='${ctx }/workOrderAction/download?id=${workOrder.accessory.id}'>${workOrder.accessory.name}</a>	
+			    </div>
+	        </c:if>
+	        <c:if test="${workOrder.script!=null}">
+		         <div class="fitem">
+		         <label>脚本下载:</label>
+		          <a href='${ctx }/workOrderAction/download?id=${workOrder.script.id}'>${workOrder.script.name}</a>	
+			    </div>
+	        </c:if>
         <div class="fitem">
             <label>评论:</label>
 			<c:choose>
@@ -86,7 +98,7 @@
         </div>
         <div class="fitem">
             <label>我的意见:</label>
-            <textarea cols="33" rows="5" name="content"></textarea>
+            <textarea cols="68" rows="5" name="content"></textarea>
         </div>
     </form>
 </div>

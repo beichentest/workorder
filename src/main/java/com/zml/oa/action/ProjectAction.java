@@ -139,6 +139,19 @@ public class ProjectAction {
 		return "project/update_project";
 	}
 	
+	@RequestMapping(value = "/getProject")
+	@ResponseBody
+	public String getProject(Integer id) throws Exception {
+		if(id==null)
+			return "";
+		Project project = projectService.getProjectById(id);
+		if(project!=null) {
+			return project.getCoderSvn();
+		}else {
+			return "";
+		}
+	}
+	
 	@RequestMapping(value = "/doUpdate")
 	@ResponseBody
 	public Message doUpdate(@ModelAttribute("project") Project project) throws Exception{

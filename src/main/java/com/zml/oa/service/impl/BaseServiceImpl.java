@@ -353,4 +353,9 @@ public class BaseServiceImpl<T> implements IBaseService<T> {
 	public int execBySQL(String sql) {
 		return this.baseDao.execBySQL(sql);
 	}
+
+	@Override
+	public List<T> findByCriteria(DetachedCriteria detachedCriteria) {
+		return this.baseDao.findAllByCriteria(detachedCriteria);		
+	}
 }

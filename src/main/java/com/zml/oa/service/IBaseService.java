@@ -167,4 +167,6 @@ public interface IBaseService<T> {
 		 * @return
 		 */
 		public int execBySQL(final String sql);
+		
+		public List<T> findByCriteria(DetachedCriteria detachedCriteria);
 }

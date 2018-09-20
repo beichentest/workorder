@@ -22,7 +22,7 @@
         width:80px;
     }
     .fitem input{
-        width:160px;
+        width:480px;
     }
 </style>
 
@@ -35,7 +35,7 @@
 		<input type="hidden" id="completeFlag" name="completeFlag" value="" />
 		<div class="fitem">
 	            <label>类别:</label>
-	            <select id="type" class="easyui-combobox" name="type" style="width:280px;" disabled="disabled">	            	
+	            <select id="type" class="easyui-combobox" name="type" style="width:480px;" disabled="disabled">	            	
 				    <option value="需求变更" <c:if test="${'需求变更'==workOrder.type}">selected='selected'</c:if>>需求变更</option>
 				    <option value="新项目" <c:if test="${'新项目'==workOrder.type}">selected='selected'</c:if>>新项目</option>
 				    <option value="设计缺陷" <c:if test="${'设计缺陷'==workOrder.type}">selected='selected'</c:if>>设计缺陷</option>
@@ -44,7 +44,7 @@
 	    </div>
 		<div class="fitem">
 	       <label>项目域名:</label>
-	          <select id="domain_id" class="easyui-combobox" name="domain.id" style="width:280px;" disabled="disabled">
+	          <select id="domain_id" class="easyui-combobox" name="domain.id" style="width:480px;" disabled="disabled">
 				    <c:forEach var="domain" items="${domainList}">
 				    <option value="${domain.id}" <c:if test="${domain.id==workOrder.domain.id}">selected='selected'</c:if>>${domain.domain}</option>
 				    </c:forEach>
@@ -52,7 +52,7 @@
 	        </div>
 	        <div class="fitem">
 	            <label>涉及项目:</label>
-	            <select id="project_id" class="easyui-combobox" name="project.id" style="width:280px;" disabled="disabled">
+	            <select id="project_id" class="easyui-combobox" name="project.id" style="width:480px;" disabled="disabled">
 				    <c:forEach var="project" items="${workOrder.domain.projects}">
 				    <option value="${project.id}" <c:if test="${project.id==workOrder.project.id}">selected='selected'</c:if>>${project.name}</option>
 				    </c:forEach>
@@ -60,11 +60,11 @@
 	        </div>
 	        <div class="fitem">
 	            <label>功能需求:</label>
-	            <input id="develop_explain" name="developExplain" value="${workOrder.developExplain}" class="easyui-textbox" required="true" data-options="multiline:true" style="height:70px; width: 300px">
+	            <input id="develop_explain" name="developExplain" value="${workOrder.developExplain}" class="easyui-textbox" required="true" data-options="multiline:true" style="height:70px; width: 480px">
 	        </div>
 	        <div class="fitem">
 	            <label>测试描述:</label>
-	            <input id="test_desc" name="testDesc" value="${workOrder.testDesc}" class="easyui-textbox" required="true" data-options="multiline:true" style="height:70px; width: 300px">
+	            <input id="test_desc" name="testDesc" value="${workOrder.testDesc}" class="easyui-textbox" required="true" data-options="multiline:true" style="height:70px; width: 480px">
 	        </div>
 	        <div class="fitem">
             <label>SVN地址:</label>
@@ -82,6 +82,18 @@
             <label>入库版本号:</label>
 	            <c:out value="${version}"/>
 	        </div>
+	        <c:if test="${workOrder.accessory!=null}">
+		         <div class="fitem">
+		         <label>附件下载:</label>
+		          <a href='${ctx }/workOrderAction/download?id=${workOrder.accessory.id}'>${workOrder.accessory.name}</a>	
+			    </div>
+	        </c:if>
+	        <c:if test="${workOrder.script!=null}">
+		         <div class="fitem">
+		         <label>脚本下载:</label>
+		          <a href='${ctx }/workOrderAction/download?id=${workOrder.script.id}'>${workOrder.script.name}</a>	
+			    </div>
+	        </c:if>
         <div class="fitem">
             <label>评论:</label>
 			<c:choose>
@@ -90,7 +102,7 @@
            		</c:when>
             	<c:otherwise>
             		<div style="display: inline-block;">
-            		<table class="easyui-datagrid" style="width:450px;" data-options="fitColumns:true,singleSelect:true">
+            		<table class="easyui-datagrid" style="width:480px;" data-options="fitColumns:true,singleSelect:true">
 					    <thead>
 							<tr>
 								<th data-options="field:'userName',width:100,align:'center'">评论人</th>
@@ -114,7 +126,7 @@
         </div>
         <div class="fitem">
             <label>我的意见:</label>
-            <textarea cols="33" rows="5" name="content"></textarea>
+            <textarea cols="65" rows="5" name="content"></textarea>
         </div>        
     </form>
 </div>

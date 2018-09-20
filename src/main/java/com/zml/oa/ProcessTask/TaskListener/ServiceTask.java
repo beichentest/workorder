@@ -32,7 +32,6 @@ import com.zml.oa.util.DateUtil;
 *
  */
 @Service
-//@EnableAsync
 public class ServiceTask {
 	private static final Logger logger = Logger.getLogger(ServiceTask.class);
     @Resource(name="mailSender")
@@ -70,15 +69,5 @@ public class ServiceTask {
         }else {
         	logger.error("==========send fail============="+execution.toString());
         }
-	}
-	@Async
-	public void test() {
-		try {
-			Thread.currentThread().sleep(10000l);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		logger.error("==========================");
 	}
 }

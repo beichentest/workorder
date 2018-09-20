@@ -1,8 +1,11 @@
 package com.zml.oa.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -19,8 +24,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * 工单对象
@@ -289,6 +292,24 @@ public class WorkOrder extends BaseVO implements Serializable{
 	 */
 	@Column(name = "PROJECT_VERSION")
 	private String projectVersion;
+	
+	/**
+	 * 附件
+	 */
+	@OneToOne(targetEntity=Accessory.class,cascade=CascadeType.REFRESH)
+	@JoinColumn(name="ACCESSORY_ID",updatable=true)
+	private Accessory accessory;
+	/**
+	 * 脚本
+	 */
+	@OneToOne(targetEntity=Accessory.class,cascade=CascadeType.REFRESH)
+	@JoinColumn(name="SCRIPT_ID",updatable=true)
+	private Accessory script;
+	/**
+	 * 测试标记
+	 */
+	@Column(name = "TEST_FLAG")
+	private Integer testFlag;
 	
 	@Transient
 	private String webPath;
@@ -734,5 +755,28 @@ public class WorkOrder extends BaseVO implements Serializable{
 	public void setWebPath(String webPath) {
 		this.webPath = webPath;
 	}
-	
+
+	public Accessory getAccessory() {
+		return accessory;
+	}
+
+	public void setAccessory(Accessory accessory) {
+		this.accessory = accessory;
+	}
+
+	public Accessory getScript() {
+		return script;
+	}
+
+	public void setScript(Accessory script) {
+		this.script = script;
+	}
+
+	public Integer getTestFlag() {
+		return testFlag;
+	}
+
+	public void setTestFlag(Integer testFlag) {
+		this.testFlag = testFlag;
+	}
 }

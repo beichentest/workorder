@@ -33,6 +33,15 @@
 		<input type="hidden" name="workOrderId" value="${workOrder.id }" />
 		<input type="hidden" id="formKey" name="formKey" value="${formKey}" />
 		<input type="hidden" id="completeFlag" name="completeFlag" value="" />
+		
+		<div class="fitem">
+	            <label>是否测试:</label>	 
+	            <span style="text-align: left;width: 60px;">                       	
+                <input type="radio" id="test_flag" name="testFlag" style="width: 15px;margin-left: 10px;" value="0" <c:if test="${0==workOrder.testFlag}"> checked="checked" </c:if>/>是                            	
+               	<input type="radio" id="test_flag" name="testFlag" style="width: 15px;margin-left: 10px;" value="1" <c:if test="${1==workOrder.testFlag}"> checked="checked" </c:if>/> 否
+               	</span>
+	    </div>
+		
 		<div class="fitem">
 	            <label>类别:</label>
 	            <select id="type" class="easyui-combobox" name="type" style="width:480px;" >	            	
@@ -183,20 +192,11 @@
 	}
 	
 	function delFile(id){
-		$.ajax({
-    		type: "POST",
-    		url: ctx+"/workOrderAction/delAccessory?id="+id,
-    		success: function (data) {
-    			var json = data;
-    			if (json.status) {
-    				$("#script_id").html("");
-    			}
-    			$.messager.show({
-					title : json.title,
-					msg : json.message,
-					timeout : 1000 * 2
-				});
-    		}
-    	});
+		$("#script_id").html("");
+		$.messager.show({
+			title : '提示',
+			msg : '操作成功',
+			timeout : 1000 * 2
+		});		
 	}
 </script>

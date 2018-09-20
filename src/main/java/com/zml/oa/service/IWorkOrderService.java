@@ -33,4 +33,6 @@ public interface IWorkOrderService {
 	public List<WorkOrder> getWorkOrderList(String hql,String sort,String order,Object[] values)throws Exception;
 	
 	public XWPFTemplate generatePrintWorkorder(String servletContextRealPath, WorkOrder workOrder)throws Exception;
+	
+	public List<WorkOrder> getWorkOrderByAccessoryId(Integer accessoryId)throws Exception;
 }
