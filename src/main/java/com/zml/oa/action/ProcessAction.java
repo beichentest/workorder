@@ -787,6 +787,9 @@ public class ProcessAction {
     		map.put("pi_suspended", base.getProcessInstance().isSuspended());
     		map.put("businessType", base.getBusinessType());
     		map.put("businessKey", base.getBusinessKey());
+    		if(BaseVO.WORKORDER.equals(businessType)){
+    			map.put("workorderId", base.getWorkorder().getId());
+    		}
     		jsonList.add(map);
     	}
     	return new Datagrid<Object>(total, jsonList);
