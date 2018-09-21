@@ -77,6 +77,8 @@ public class BaseVO implements Serializable{
 	
 	//对应业务的id
 	private String businessKey;
+	//对应的工单
+	private WorkOrder workorder;
 	
     // 流程任务
 	@JsonBackReference 
@@ -208,6 +210,12 @@ public class BaseVO implements Serializable{
 	public void setHistoricTaskInstance(HistoricTaskInstance historicTaskInstance) {
 		this.historicTaskInstance = historicTaskInstance;
 	}
-	
-	
+	@Transient
+	public WorkOrder getWorkorder() {
+		return workorder;
+	}
+
+	public void setWorkorder(WorkOrder workorder) {
+		this.workorder = workorder;
+	}
 }

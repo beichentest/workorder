@@ -78,7 +78,7 @@
 			<div class="formLogin">
 				<form name="formLogin" action="" id="formLogin" method="post">
 					<div class="tip">
-						<input class="userName" type="text" name="name" id="name" value="admin" title="用户名" nullmsg="请输入用户名!" iscookie="true" />
+						<input class="userName" type="text" name="name" id="name"  title="用户名" nullmsg="请输入用户名!" iscookie="true" />
 					</div>
 					<div class="tip">
 						<input class="password" name="passwd" type="password" id="passwd" value="123456" title="密码" nullmsg="请输入密码!" />

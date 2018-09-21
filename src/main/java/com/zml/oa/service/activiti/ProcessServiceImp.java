@@ -875,8 +875,9 @@ public class ProcessServiceImp implements IProcessService{
 					base.setTask(task);
 		            base.setProcessInstance(pi);
 		            base.setProcessDefinition(getProcessDefinition(pi.getProcessDefinitionId()));
+		            base.setWorkorder(wo);
 					result.add(base);
-				}
+				}				
 			}
 		}
 		return result;

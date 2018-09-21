@@ -913,6 +913,13 @@ public class WorkOrderAction implements Serializable {
 		return message;
 	}
 
+	@RequestMapping(value = "/showDevelopExplain/{id}")
+	public String showDevelopExplain(@PathVariable("id") Integer id, Model model) throws Exception {
+		WorkOrder workorder = workOrderService.findById(id);
+		model.addAttribute("developExplain", workorder.getDevelopExplain());
+		return "workOrder/show_develop_explain";
+	}
+	
 	private String generateVersion(Project project, String type) {
 		if (project == null)
 			return "";

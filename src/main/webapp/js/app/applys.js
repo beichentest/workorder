@@ -66,7 +66,13 @@ function showApply( businessType ){
                 		return moment(value).format("YYYY-MM-DD HH:mm:ss");
                 	}
                 },
-                {field : 'pi_suspended',title : '流程状态',width : fixWidth(0.1),align : 'center',
+                {field:'view',title:'查看',width:fixWidth(0.1),
+              	  formatter: function(value,row,index){
+              		  var btn = '<a class="easyui-linkbutton c1" name="view_desc" iconCls="icon-search" onclick="showWorkorder(\''+row.workorderId+'\')" href="javascript:void(0)">查看</a>';  
+                        return btn;                      
+                	  }
+                }
+                /*{field : 'pi_suspended',title : '流程状态',width : fixWidth(0.1),align : 'center',
 		          	formatter:function(value, row){
 		        		if(value){
 		        			return "已挂起; <b title='流程版本号'>V: "+row.pd_version+"</b>";
@@ -74,12 +80,45 @@ function showApply( businessType ){
 		        			return "正常; <b title='流程版本号'>V: "+row.pd_version+"</b>";  
 		        		}
 					}
-                }
+                }*/
             ] 
 		],
-		toolbar: "#toolbar"
+		toolbar: "#toolbar",
+		onLoadSuccess:function(data){  
+    	    $("a[name='view_desc']").linkbutton({text:'查看',plain:true,iconCls:'icon-search'});  
+    	}
 	});
 }
+
+function showWorkorder(workorderId){
+	var url = ctx + "/workOrderAction/showDevelopExplain/"+workorderId;
+   	//弹出对话窗口
+   	details_dialog = $('<div/>').dialog({
+        title : "功能需求",
+    	top: 20,
+    	width : 600,
+    	height : 400,
+        modal: true,
+        minimizable: true,
+        maximizable: false,
+        href: url,
+        onLoad: function () {                            	
+        },
+        buttons: [
+            {
+                text: '关闭',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                	details_dialog.dialog('destroy');
+                }
+            }
+         ],
+        onClose: function () {
+        	details_dialog.dialog('destroy');
+        }
+    });    	
+}
+
 
 function showDetails(){
 	var row = apply_datagrid.datagrid('getSelected');
